@@ -1,0 +1,29 @@
+{
+  "name": "paypilot-ai-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PayPilot AI — Your AI Shopping Copilot with intelligent recommendations and PayPal sandbox checkout",
+  "workspaces": [
+    "packages/shared",
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:api": "npm run dev --workspace=@paypilot/api",
+    "dev:web": "npm run dev --workspace=@paypilot/web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "keywords": [
+    "ai",
+    "shopping-assistant",
+    "paypal",
+    "hackathon",
+    "fintech",
+    "ecommerce"
+  ],
+  "author": "PayPilot AI Team",
+  "license": "MIT"
+}
