@@ -17,12 +17,14 @@ interface ProductCardProps {
   product: Product;
   recommendation?: ProductRecommendationItem;
   featured?: boolean;
+  layout?: 'standard' | 'horizontal';
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   recommendation,
   featured = false,
+  layout = 'standard',
 }) => {
   const {
     formatPrice,
@@ -38,15 +40,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className={`group relative flex flex-col rounded-lg border bg-surface transition-all duration-200 overflow-hidden ${
+      className={`group relative flex ${
+        layout === 'horizontal' ? 'flex-col sm:flex-row' : 'flex-col'
+      } rounded-lg border bg-surface transition-all duration-200 overflow-hidden ${
         featured
           ? 'border-accent shadow-tactile-md ring-1 ring-accent/20'
           : 'border-border hover:border-foreground-muted/40 shadow-tactile hover:shadow-tactile-md'
       }`}
     >
-      {/* Top Media Container */}
+      {/* Top / Left Media Container */}
       <div
-        className="relative w-full aspect-16/10 bg-surface-subtle overflow-hidden cursor-pointer"
+        className={`relative ${
+          layout === 'horizontal'
+            ? 'w-full sm:w-2/5 aspect-16/10 sm:aspect-auto shrink-0 min-h-[190px]'
+            : 'w-full aspect-16/10'
+        } bg-surface-subtle overflow-hidden cursor-pointer`}
         onClick={() => setSelectedProductForDetail(product)}
       >
         <img
@@ -61,6 +69,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <span className="px-2 py-0.5 rounded bg-surface/90 backdrop-blur-xs text-[11px] font-mono font-semibold uppercase tracking-wider text-foreground border border-border">
             {product.brand}
           </span>
+          {featured && (
+            <span className="px-2 py-0.5 rounded bg-accent text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-tactile">
+              TOP PICK
+            </span>
+          )}
           {product.isSampleData && (
             <span className="px-1.5 py-0.5 rounded bg-surface/80 text-[10px] font-mono text-foreground-muted border border-border/80">
               SAMPLE SPEC

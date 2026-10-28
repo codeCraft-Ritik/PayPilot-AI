@@ -61,17 +61,38 @@ export class DeterministicRankingEngine {
       (item) => item.budgetStatus === 'over-budget' || item.budgetStatus === 'stretch'
     );
 
+    // Balanced grid grouping: prefer 4 (for 2x2 grid) or 2 (for 1x2 row)
     let recommendations: ProductRecommendationItem[];
     let alternatives: ProductRecommendationItem[];
 
-    if (withinBudgetOrTop.length >= 2) {
-      recommendations = withinBudgetOrTop.slice(0, 3);
-      alternatives = scoredItems
-        .filter((item) => !recommendations.some((r) => r.product.id === item.product.id))
-        .slice(0, 2);
+    if (withinBudgetOrTop.length >= 4) {
+      recommendations = withinBudgetOrTop.slice(0, 4);
+      const remaining = scoredItems.filter(
+        (item) => !recommendations.some((r) => r.product.id === item.product.id)
+      );
+      // Only show alternatives if at least 2 exist so they sit side-by-side
+      alternatives = remaining.length >= 2 ? remaining.slice(0, 2) : [];
+    } else if (withinBudgetOrTop.length === 3) {
+      // Check if there is a 4th scored item we can include to make a perfect 2x2
+      const candidate4th = scoredItems.find(
+        (item) => !withinBudgetOrTop.some((r) => r.product.id === item.product.id)
+      );
+      if (candidate4th) {
+        recommendations = [...withinBudgetOrTop, candidate4th];
+        alternatives = [];
+      } else {
+        recommendations = withinBudgetOrTop;
+        alternatives = [];
+      }
+    } else if (withinBudgetOrTop.length >= 1) {
+      recommendations = withinBudgetOrTop;
+      const remaining = scoredItems.filter(
+        (item) => !recommendations.some((r) => r.product.id === item.product.id)
+      );
+      alternatives = remaining.length >= 2 ? remaining.slice(0, 2) : [];
     } else {
-      recommendations = scoredItems.slice(0, 3);
-      alternatives = scoredItems.slice(3, 5);
+      recommendations = scoredItems.slice(0, Math.min(4, scoredItems.length));
+      alternatives = [];
     }
 
     return { recommendations, alternatives };
