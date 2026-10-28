@@ -1,0 +1,188 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "PayPilot AI REST API",
+    "description": "OpenAPI specification for PayPilot AI — Your AI Shopping Copilot with grounded spec recommendations and verified PayPal Sandbox checkout.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "PayPilot AI Hackathon Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "System Health & Provider Status",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "System status with active AI provider and PayPal mode"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "Get Catalogue Products",
+        "operationId": "getProducts",
+        "parameters": [
+          { "name": "category", "in": "query", "schema": { "type": "string" } },
+          { "name": "minPrice", "in": "query", "schema": { "type": "number" } },
+          { "name": "maxPrice", "in": "query", "schema": { "type": "number" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "List of products" }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Get Product by ID",
+        "operationId": "getProductById",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Product details" },
+          "404": { "description": "Product not found" }
+        }
+      }
+    },
+    "/recommendations/assistant": {
+      "post": {
+        "summary": "Query AI Shopping Assistant",
+        "operationId": "queryAssistant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": { "type": "string" },
+                  "userBudget": { "type": "number" },
+                  "budgetCurrency": { "type": "string", "enum": ["USD", "INR"] },
+                  "preferredCategory": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Structured intent, ranked recommendations, and grounded evidence" }
+        }
+      }
+    },
+    "/recommendations/compare": {
+      "post": {
+        "summary": "Compare Products Side-by-Side",
+        "operationId": "compareProducts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["productIds"],
+                "properties": {
+                  "productIds": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Comparison matrix and AI trade-off analysis" }
+        }
+      }
+    },
+    "/payments/config": {
+      "get": {
+        "summary": "Get Public PayPal Sandbox Config",
+        "operationId": "getPaymentConfig",
+        "responses": {
+          "200": { "description": "Public client ID and environment" }
+        }
+      }
+    },
+    "/payments/create-order": {
+      "post": {
+        "summary": "Create PayPal Checkout Order",
+        "operationId": "createCheckoutOrder",
+        "description": "Server strictly recalculates line items and totals against authoritative catalogue records.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["items"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["productId", "quantity"],
+                      "properties": {
+                        "productId": { "type": "string" },
+                        "quantity": { "type": "integer", "minimum": 1, "maximum": 20 }
+                      }
+                    }
+                  },
+                  "currency": { "type": "string", "default": "USD" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order created with PayPal order reference" }
+        }
+      }
+    },
+    "/payments/capture-order": {
+      "post": {
+        "summary": "Capture PayPal Payment",
+        "operationId": "captureCheckoutPayment",
+        "description": "Server verifies payment completion with PayPal REST API before updating order status.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["orderId", "paypalOrderId"],
+                "properties": {
+                  "orderId": { "type": "string" },
+                  "paypalOrderId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Verified order record with capture details" }
+        }
+      }
+    },
+    "/insights": {
+      "get": {
+        "summary": "Get Verified Shopping Insights",
+        "operationId": "getInsights",
+        "responses": {
+          "200": { "description": "Aggregated spending and transaction metrics" }
+        }
+      }
+    }
+  }
+}

@@ -10,9 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@paypilot/shared": "*",
     "@paypal/react-paypal-js": "^10.6.0",
+    "@paypilot/shared": "*",
     "@tanstack/react-query": "^5.66.0",
+    "ag-grid-community": "^36.2.0",
+    "ag-grid-react": "^36.2.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.3",
     "lucide-react": "^0.475.0",

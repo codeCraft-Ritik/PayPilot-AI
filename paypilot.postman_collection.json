@@ -1,0 +1,251 @@
+{
+  "info": {
+    "name": "PayPilot AI — API Collection (PayPal AI Hackathon)",
+    "_postman_id": "89d545a9-b91e-4bc8-8d33-71ea4353cd8c",
+    "description": "Comprehensive Postman API collection for PayPilot AI: Your AI Shopping Copilot. Includes health checks, AI natural-language assistant queries, deterministic product comparison, server-side PayPal Sandbox order creation and payment capture, and shopping insights.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "System Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Verify API health, active AI provider (Gemini 2.5 Flash / Deterministic Heuristics), and PayPal Sandbox environment status."
+      }
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Retrieve all 20+ curated sample products across 7 categories."
+          }
+        },
+        {
+          "name": "Filter by Category (Audio)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?category=audio",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "audio"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product by ID (Sony XM5)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/prod-aud-01",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "prod-aud-01"]
+            }
+          }
+        },
+        {
+          "name": "Get Categories List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "categories"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Shopping Copilot",
+      "item": [
+        {
+          "name": "Query Shopping Assistant (Headphones under $150)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Find wireless headphones under $150 with good battery life, comfortable fit, and a microphone suitable for online meetings.\",\n  \"userBudget\": 150,\n  \"budgetCurrency\": \"USD\",\n  \"preferredCategory\": \"audio\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recommendations/assistant",
+              "host": ["{{baseUrl}}"],
+              "path": ["recommendations", "assistant"]
+            },
+            "description": "Send a natural language shopping request to the AI Copilot. Evaluates intent, scores specs deterministically, and generates grounded evidence."
+          }
+        },
+        {
+          "name": "Query Shopping Assistant (INR Budget Query)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Looking for mechanical keyboard under ₹10,000 for programming on Mac with hot-swappable tactile switches\",\n  \"userBudget\": 10000,\n  \"budgetCurrency\": \"INR\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recommendations/assistant",
+              "host": ["{{baseUrl}}"],
+              "path": ["recommendations", "assistant"]
+            }
+          }
+        },
+        {
+          "name": "Compare Products (Side-by-Side Trade-off Matrix)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productIds\": [\"prod-aud-01\", \"prod-aud-02\", \"prod-aud-03\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recommendations/compare",
+              "host": ["{{baseUrl}}"],
+              "path": ["recommendations", "compare"]
+            },
+            "description": "Generate an objective side-by-side trade-off matrix with AI executive verdict."
+          }
+        }
+      ]
+    },
+    {
+      "name": "PayPal Sandbox Payments",
+      "item": [
+        {
+          "name": "Get PayPal Public Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "config"]
+            }
+          }
+        },
+        {
+          "name": "Create PayPal Checkout Order (Server Price Recalculation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productId\": \"prod-aud-02\",\n      \"quantity\": 1\n    }\n  ],\n  \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/create-order",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "create-order"]
+            },
+            "description": "Server calculates authoritative prices, applies free shipping rule, and calls PayPal REST API v2 Orders."
+          }
+        },
+        {
+          "name": "Capture PayPal Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"ord_sample_id\",\n  \"paypalOrderId\": \"SANDBOX-SIM-XXXXXX\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments/capture-order",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", "capture-order"]
+            },
+            "description": "Server verifies with PayPal API and captures payment, transitioning order to COMPLETED."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders & Insights",
+      "item": [
+        {
+          "name": "List All Stored Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            }
+          }
+        },
+        {
+          "name": "Get Verified Shopping Insights",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/insights",
+              "host": ["{{baseUrl}}"],
+              "path": ["insights"]
+            },
+            "description": "Calculates real-time metrics strictly from stored, completed PayPal sandbox orders."
+          }
+        }
+      ]
+    }
+  ]
+}

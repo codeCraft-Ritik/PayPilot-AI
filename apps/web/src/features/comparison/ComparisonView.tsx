@@ -13,6 +13,7 @@ import {
 import { ComparisonResult } from '@paypilot/shared';
 import { useApp } from '../../context/AppContext.js';
 import { api } from '../../services/api.js';
+import { AgGridComparison } from './AgGridComparison.js';
 
 export const ComparisonView: React.FC = () => {
   const {
@@ -27,6 +28,7 @@ export const ComparisonView: React.FC = () => {
   const [comparisonData, setComparisonData] = useState<ComparisonResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'editorial' | 'aggrid'>('editorial');
 
   useEffect(() => {
     if (comparedProductIds.length >= 2) {
@@ -92,13 +94,39 @@ export const ComparisonView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={clearComparison}
-          className="px-3 py-1.5 rounded border border-border bg-surface hover:bg-surface-subtle text-xs font-mono text-foreground-muted hover:text-foreground flex items-center gap-1.5 self-start sm:self-auto transition-colors"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-          <span>Clear Comparison</span>
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          {/* View mode toggle */}
+          <div className="flex items-center p-0.5 rounded border border-border bg-surface-subtle text-xs font-mono">
+            <button
+              onClick={() => setViewMode('editorial')}
+              className={`px-2.5 py-1 rounded transition-colors ${
+                viewMode === 'editorial'
+                  ? 'bg-surface text-foreground font-semibold shadow-xs'
+                  : 'text-foreground-muted hover:text-foreground'
+              }`}
+            >
+              Editorial Matrix
+            </button>
+            <button
+              onClick={() => setViewMode('aggrid')}
+              className={`px-2.5 py-1 rounded transition-colors flex items-center gap-1 ${
+                viewMode === 'aggrid'
+                  ? 'bg-surface text-accent font-semibold shadow-xs'
+                  : 'text-foreground-muted hover:text-foreground'
+              }`}
+            >
+              <span>⚡ AG Grid</span>
+            </button>
+          </div>
+
+          <button
+            onClick={clearComparison}
+            className="px-3 py-1.5 rounded border border-border bg-surface hover:bg-surface-subtle text-xs font-mono text-foreground-muted hover:text-foreground flex items-center gap-1.5 transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Clear</span>
+          </button>
+        </div>
       </div>
 
       {isLoading && (
@@ -208,63 +236,72 @@ export const ComparisonView: React.FC = () => {
             })}
           </div>
 
-          {/* Detailed Matrix Table */}
-          <div className="rounded-xl border border-border bg-surface shadow-tactile overflow-hidden">
-            <div className="p-4 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
-              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-foreground">
-                ATTRIBUTE SPECIFICATION MATRIX
-              </span>
-              <span className="text-[11px] font-mono text-foreground-muted">
-                Green badges indicate spec winners
-              </span>
-            </div>
+          {/* Conditional View: AG Grid vs Editorial Matrix */}
+          {viewMode === 'aggrid' ? (
+            <AgGridComparison
+              products={comparisonData.products}
+              title="Shortlisted Products AG Grid Matrix"
+              subtitle="Live multi-column sorting, floating text filters, and direct cart actions powered by AG Grid Community v36"
+            />
+          ) : (
+            /* Detailed Matrix Table */
+            <div className="rounded-xl border border-border bg-surface shadow-tactile overflow-hidden">
+              <div className="p-4 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold uppercase tracking-wider text-foreground">
+                  ATTRIBUTE SPECIFICATION MATRIX
+                </span>
+                <span className="text-[11px] font-mono text-foreground-muted">
+                  Green badges indicate spec winners
+                </span>
+              </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
-                <thead>
-                  <tr className="border-b border-border bg-surface-subtle">
-                    <th className="p-3 font-mono text-foreground-muted w-1/4">Specification</th>
-                    {comparisonData.products.map((p) => (
-                      <th key={p.id} className="p-3 font-semibold text-foreground">
-                        {p.brand} {p.name.split(' ').slice(0, 3).join(' ')}...
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {comparisonData.matrixRows.map((row, idx) => (
-                    <tr key={idx} className={idx % 2 === 0 ? 'bg-surface' : 'bg-surface-subtle/30'}>
-                      <td className="p-3 font-medium text-foreground w-1/4">
-                        <span className="capitalize">{row.attributeName}</span>
-                        {row.note && (
-                          <span className="block text-[10px] text-foreground-muted font-normal mt-0.5">
-                            {row.note}
-                          </span>
-                        )}
-                      </td>
-                      {comparisonData.products.map((p) => {
-                        const val = row.values[p.id];
-                        const isWinner = row.winnerProductId === p.id;
-                        return (
-                          <td key={p.id} className="p-3 font-mono text-foreground">
-                            <span
-                              className={
-                                isWinner
-                                  ? 'px-2 py-0.5 rounded bg-success-subtle text-success border border-success-border font-semibold'
-                                  : ''
-                              }
-                            >
-                              {val !== undefined ? val.toString() : '—'}
-                            </span>
-                          </td>
-                        );
-                      })}
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-border bg-surface-subtle">
+                      <th className="p-3 font-mono text-foreground-muted w-1/4">Specification</th>
+                      {comparisonData.products.map((p) => (
+                        <th key={p.id} className="p-3 font-semibold text-foreground">
+                          {p.brand} {p.name.split(' ').slice(0, 3).join(' ')}...
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {comparisonData.matrixRows.map((row, idx) => (
+                      <tr key={idx} className={idx % 2 === 0 ? 'bg-surface' : 'bg-surface-subtle/30'}>
+                        <td className="p-3 font-medium text-foreground w-1/4">
+                          <span className="capitalize">{row.attributeName}</span>
+                          {row.note && (
+                            <span className="block text-[10px] text-foreground-muted font-normal mt-0.5">
+                              {row.note}
+                            </span>
+                          )}
+                        </td>
+                        {comparisonData.products.map((p) => {
+                          const val = row.values[p.id];
+                          const isWinner = row.winnerProductId === p.id;
+                          return (
+                            <td key={p.id} className="p-3 font-mono text-foreground">
+                              <span
+                                className={
+                                  isWinner
+                                    ? 'px-2 py-0.5 rounded bg-success-subtle text-success border border-success-border font-semibold'
+                                    : ''
+                                }
+                              >
+                                {val !== undefined ? val.toString() : '—'}
+                              </span>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
     </div>

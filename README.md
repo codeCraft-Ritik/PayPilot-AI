@@ -77,6 +77,7 @@ For complete technical specifications, see [docs/ARCHITECTURE.md](docs/ARCHITECT
 
 ### Frontend (`apps/web`)
 - **Framework**: React 19, TypeScript, Vite
+- **Sponsor Integration**: **AG Grid Community v36** (Interactive comparison & catalogue matrix)
 - **Styling**: Tailwind CSS, Bespoke Fintech & Tactile Brutalist Design Tokens
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
@@ -91,6 +92,14 @@ For complete technical specifications, see [docs/ARCHITECTURE.md](docs/ARCHITECT
 ### AI & Payments
 - **AI Engine**: Google Gemini API (`gemini-2.5-flash`) + Intelligent Deterministic Heuristic Fallback
 - **Payments**: Official PayPal Developer REST APIs (`/v1/oauth2/token`, `/v2/checkout/orders`, `/v2/checkout/orders/{id}/capture`)
+
+### 🏆 Hackathon Sponsor Integrations
+- **PayPal Developer Platform**: Complete sandbox payment lifecycle, price verification & capture.
+- **AG Grid**: Integrated in `apps/web` for advanced multi-column spec comparison and catalogue exploration.
+- **Postman**: Complete Postman collection included ([paypilot.postman_collection.json](paypilot.postman_collection.json)).
+- **Render**: Infrastructure-as-code deployment blueprint ([render.yaml](render.yaml)).
+- **APIMatic**: Full OpenAPI 3.0 specification ([docs/openapi.json](docs/openapi.json)).
+- **Devpost Submission Guide**: Complete submission text prepared in [SUBMISSION.md](SUBMISSION.md).
 
 ---
 

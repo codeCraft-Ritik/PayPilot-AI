@@ -90,5 +90,97 @@
       "currency": "USD",
       "amount": "99.99"
     }
+  },
+  {
+    "id": "ord_1793164488006_4hs0g",
+    "orderNumber": "PP-2026-841809",
+    "items": [
+      {
+        "productId": "prod-aud-02",
+        "name": "Anker Soundcore Space Q45 Adaptive ANC Headphones",
+        "quantity": 2,
+        "unitPrice": 129.99,
+        "totalPrice": 259.98
+      }
+    ],
+    "subtotal": 259.98,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 259.98,
+    "currency": "USD",
+    "status": "PENDING_APPROVAL",
+    "createdAt": "2026-10-28T05:14:48.006Z",
+    "updatedAt": "2026-10-28T05:14:48.006Z",
+    "paypalOrderId": "SANDBOX-SIM-MVRNU62U-KWR7"
+  },
+  {
+    "id": "ord_1793164488013_nylqh",
+    "orderNumber": "PP-2026-529038",
+    "items": [
+      {
+        "productId": "prod-per-02",
+        "name": "Logitech MX Master 3S Performance Wireless Mouse",
+        "quantity": 1,
+        "unitPrice": 99.99,
+        "totalPrice": 99.99
+      }
+    ],
+    "subtotal": 99.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 99.99,
+    "currency": "USD",
+    "status": "COMPLETED",
+    "createdAt": "2026-10-28T05:14:48.013Z",
+    "updatedAt": "2026-10-28T05:14:48.017Z",
+    "paypalOrderId": "SANDBOX-SIM-MVRNU631-XU6U",
+    "paypalCaptureId": "CAP-MVRNU635-LWTAG",
+    "payerEmail": "sandbox-shopper@paypilot.demo",
+    "payerName": "Sandbox Shopper",
+    "verifiedAt": "2026-10-28T05:14:48.017Z",
+    "paymentDetails": {
+      "processor": "PAYPAL_SANDBOX",
+      "status": "COMPLETED",
+      "captureId": "CAP-MVRNU635-LWTAG",
+      "createTime": "2026-10-28T05:14:48.017Z",
+      "updateTime": "2026-10-28T05:14:48.017Z",
+      "currency": "USD",
+      "amount": "99.99"
+    }
+  },
+  {
+    "id": "ord_1793164488022_0oo25",
+    "orderNumber": "PP-2026-845593",
+    "items": [
+      {
+        "productId": "prod-per-02",
+        "name": "Logitech MX Master 3S Performance Wireless Mouse",
+        "quantity": 1,
+        "unitPrice": 99.99,
+        "totalPrice": 99.99
+      }
+    ],
+    "subtotal": 99.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 99.99,
+    "currency": "USD",
+    "status": "COMPLETED",
+    "createdAt": "2026-10-28T05:14:48.022Z",
+    "updatedAt": "2026-10-28T05:14:48.025Z",
+    "paypalOrderId": "SANDBOX-SIM-MVRNU63A-J63Y",
+    "paypalCaptureId": "CAP-MVRNU63D-GR5JH",
+    "payerEmail": "sandbox-shopper@paypilot.demo",
+    "payerName": "Sandbox Shopper",
+    "verifiedAt": "2026-10-28T05:14:48.025Z",
+    "paymentDetails": {
+      "processor": "PAYPAL_SANDBOX",
+      "status": "COMPLETED",
+      "captureId": "CAP-MVRNU63D-GR5JH",
+      "createTime": "2026-10-28T05:14:48.025Z",
+      "updateTime": "2026-10-28T05:14:48.025Z",
+      "currency": "USD",
+      "amount": "99.99"
+    }
   }
 ]

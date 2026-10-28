@@ -1,0 +1,47 @@
+# Render Infrastructure as Code Blueprint for PayPilot AI
+# PayPal AI Hackathon — Render Sponsor Track
+
+services:
+  # 1. Backend Express API
+  - type: web
+    name: paypilot-api
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build --workspace=@paypilot/shared && npm run build --workspace=@paypilot/api
+    startCommand: npm run start --workspace=@paypilot/api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CLIENT_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_ENVIRONMENT
+        value: sandbox
+      - key: PAYPAL_API_BASE
+        value: https://api-m.sandbox.paypal.com
+
+  # 2. Frontend React / Vite Static Site
+  - type: web
+    name: paypilot-web
+    env: static
+    buildCommand: npm install && npm run build --workspace=@paypilot/shared && npm run build --workspace=@paypilot/web
+    staticPublishPath: ./apps/web/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: paypilot-api
+          property: host
