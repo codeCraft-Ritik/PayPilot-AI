@@ -99,18 +99,26 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* Interactive Live PayPal & Gemini Status Badge */}
-          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/70 border border-border/80 text-[11px] font-mono text-foreground-muted shadow-xs backdrop-blur-sm group/status relative cursor-default">
+          {/* Interactive Live PayPal & Gemini Status Badge with Equalizer */}
+          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/80 border border-border/80 text-[11px] font-mono text-foreground-muted shadow-xs backdrop-blur-sm group/status relative cursor-default hover:border-accent/40 transition-colors">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
             </span>
-            <span className="text-foreground font-medium text-[10px] tracking-tight">PAYPAL SANDBOX</span>
+            <span className="text-foreground font-semibold text-[10px] tracking-tight">PAYPAL SANDBOX</span>
             <span className="text-foreground-muted/60">•</span>
-            <span className="text-accent text-[10px] font-medium flex items-center gap-0.5">
+            <span className="text-accent text-[10px] font-semibold flex items-center gap-0.5">
               <Zap className="w-2.5 h-2.5" />
               <span>GEMINI 2.5</span>
             </span>
+
+            {/* Micro AI Equalizer bars */}
+            <div className="flex items-center gap-0.5 h-3 ml-1 border-l border-border/80 pl-1.5" title="Real-time Neural Engine Active">
+              <span className="w-0.5 bg-accent rounded-full animate-soundwave-1" />
+              <span className="w-0.5 bg-accent rounded-full animate-soundwave-2" />
+              <span className="w-0.5 bg-accent rounded-full animate-soundwave-3" />
+              <span className="w-0.5 bg-accent rounded-full animate-soundwave-4" />
+            </div>
 
             {/* Hover Tooltip */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 rounded-md bg-foreground text-surface text-[10px] font-sans font-medium whitespace-nowrap shadow-lg opacity-0 pointer-events-none group-hover/status:opacity-100 transition-opacity z-50">

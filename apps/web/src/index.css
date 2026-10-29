@@ -117,6 +117,82 @@
   }
 }
 
+/* Cyber Mesh & Dot Grid */
+.cyber-grid {
+  background-image: radial-gradient(rgba(49, 91, 255, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.cyber-grid-dense {
+  background-image: radial-gradient(rgba(49, 91, 255, 0.18) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+/* Holographic Borders & Glows */
+.holo-border {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--surface), var(--surface)) padding-box,
+              linear-gradient(135deg, rgba(49, 91, 255, 0.4), rgba(0, 242, 254, 0.3), rgba(168, 85, 247, 0.35)) border-box;
+}
+
+.holo-glow {
+  box-shadow: 0 0 25px -4px rgba(49, 91, 255, 0.25), 0 0 10px -2px rgba(0, 242, 254, 0.2);
+}
+
+/* Infinite Marquee Ticker */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* AI Soundwave Equalizer Animation */
+@keyframes soundwave1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+@keyframes soundwave2 {
+  0%, 100% { height: 8px; }
+  50% { height: 20px; }
+}
+
+@keyframes soundwave3 {
+  0%, 100% { height: 12px; }
+  50% { height: 6px; }
+}
+
+@keyframes soundwave4 {
+  0%, 100% { height: 6px; }
+  50% { height: 18px; }
+}
+
+.animate-soundwave-1 {
+  animation: soundwave1 1.2s ease-in-out infinite;
+}
+.animate-soundwave-2 {
+  animation: soundwave2 0.9s ease-in-out infinite;
+}
+.animate-soundwave-3 {
+  animation: soundwave3 1.4s ease-in-out infinite;
+}
+.animate-soundwave-4 {
+  animation: soundwave4 1.1s ease-in-out infinite;
+}
+
 /* Tabular figures for financial numbers & prices */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
@@ -141,14 +217,20 @@
   background: #B4B6AC;
 }
 
-/* Reduced motion support */
+/* Selective reduced motion support (avoids jarring 0.01ms flash) */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .animate-marquee {
+    animation: none !important;
+  }
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-soundwave-1,
+  .animate-soundwave-2,
+  .animate-soundwave-3,
+  .animate-soundwave-4 {
+    animation: none !important;
+  }
+  html {
     scroll-behavior: auto !important;
   }
 }
