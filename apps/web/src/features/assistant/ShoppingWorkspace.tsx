@@ -140,7 +140,7 @@ export const ShoppingWorkspace: React.FC = () => {
       {/* Main Workspace Split Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Conversational Assistant Thread (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col h-[750px] rounded-xl border border-border bg-surface shadow-tactile overflow-hidden">
+        <div className="lg:col-span-5 flex flex-col h-[750px] rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm shadow-tactile-lg overflow-hidden">
           {/* Thread Header */}
           <div className="p-3.5 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -308,7 +308,7 @@ export const ShoppingWorkspace: React.FC = () => {
           {activeAssistantResponse ? (
             <>
               {/* Intent Summary Box */}
-              <div className="rounded-xl border border-border bg-surface p-4 shadow-tactile space-y-3">
+              <div className="rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm p-5 shadow-tactile-lg space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono font-semibold uppercase text-accent tracking-wider flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
@@ -430,7 +430,7 @@ export const ShoppingWorkspace: React.FC = () => {
             </>
           ) : (
             /* Empty State for Right Column */
-            <div className="rounded-xl border border-border bg-surface p-12 text-center space-y-4 shadow-tactile">
+            <div className="rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm p-12 text-center space-y-4 shadow-tactile-lg">
               <div className="w-12 h-12 rounded-full bg-surface-subtle border border-border flex items-center justify-center mx-auto text-foreground-muted">
                 <Sparkles className="w-6 h-6 text-accent" />
               </div>
