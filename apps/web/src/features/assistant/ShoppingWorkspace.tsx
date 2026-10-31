@@ -467,26 +467,17 @@ export const ShoppingWorkspace: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {activeAssistantResponse.recommendations.map((recItem, idx) => {
-                    const totalRecs = activeAssistantResponse.recommendations.length;
-                    const isOdd = totalRecs % 2 !== 0;
-                    const isHero = isOdd && idx === 0;
-
-                    return (
-                      <div
-                        key={recItem.product.id}
-                        className={isHero ? 'md:col-span-2' : 'col-span-1'}
-                      >
-                        <ProductCard
-                          product={recItem.product}
-                          recommendation={recItem}
-                          featured={idx === 0}
-                          layout={isHero ? 'horizontal' : 'standard'}
-                        />
-                      </div>
-                    );
-                  })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {activeAssistantResponse.recommendations.map((recItem, idx) => (
+                    <div key={recItem.product.id} className="col-span-1 h-full">
+                      <ProductCard
+                        product={recItem.product}
+                        recommendation={recItem}
+                        featured={idx === 0}
+                        layout="standard"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -502,24 +493,16 @@ export const ShoppingWorkspace: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {activeAssistantResponse.alternatives.map((altItem) => {
-                      const totalAlts = activeAssistantResponse.alternatives.length;
-                      const isSingle = totalAlts === 1;
-
-                      return (
-                        <div
-                          key={altItem.product.id}
-                          className={isSingle ? 'md:col-span-2' : 'col-span-1'}
-                        >
-                          <ProductCard
-                            product={altItem.product}
-                            recommendation={altItem}
-                            layout={isSingle ? 'horizontal' : 'standard'}
-                          />
-                        </div>
-                      );
-                    })}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {activeAssistantResponse.alternatives.map((altItem) => (
+                      <div key={altItem.product.id} className="col-span-1 h-full">
+                        <ProductCard
+                          product={altItem.product}
+                          recommendation={altItem}
+                          layout="standard"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

@@ -40,7 +40,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className={`group relative flex ${
+      className={`group relative flex h-full ${
         layout === 'horizontal' ? 'flex-col sm:flex-row' : 'flex-col'
       } rounded-2xl border bg-surface transition-all duration-300 overflow-hidden hover:-translate-y-1 ${
         featured

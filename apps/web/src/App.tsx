@@ -17,7 +17,7 @@ export const App: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-background text-foreground relative selection:bg-accent/20 selection:text-accent">
       <Navbar />
 
-      <main className="flex-1 pt-18 sm:pt-24">
+      <main className="flex-1 pt-20 sm:pt-24">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/workspace" element={<ShoppingWorkspace />} />
