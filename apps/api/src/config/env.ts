@@ -25,6 +25,10 @@ const envSchema = z.object({
   PAYPAL_ENVIRONMENT: z.enum(['sandbox', 'live']).default('sandbox'),
   PAYPAL_API_BASE: z.string().default('https://api-m.sandbox.paypal.com'),
 
+  // Channel3 100M+ Real Products Sponsor API Configuration
+  CHANNEL3_API_KEY: z.string().optional(),
+  CHANNEL3_API_BASE: z.string().default('https://api.channel3.ai/v1'),
+
   // Transparent Currency conversion
   BASE_CURRENCY: z.enum(['USD', 'INR']).default('USD'),
   INR_TO_USD_RATE: z.coerce.number().default(0.012),
@@ -41,3 +45,6 @@ export const env = parsed.data;
 
 export const isPayPalConfigured = Boolean(env.PAYPAL_CLIENT_ID && env.PAYPAL_CLIENT_SECRET);
 export const isGeminiConfigured = Boolean(env.GEMINI_API_KEY && env.GEMINI_API_KEY !== 'your_gemini_api_key_here');
+export const isChannel3Configured = Boolean(
+  env.CHANNEL3_API_KEY && env.CHANNEL3_API_KEY !== 'your_channel3_api_key_here'
+);

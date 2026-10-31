@@ -28,6 +28,10 @@ services:
         value: sandbox
       - key: PAYPAL_API_BASE
         value: https://api-m.sandbox.paypal.com
+      - key: CHANNEL3_API_KEY
+        sync: false
+      - key: CHANNEL3_API_BASE
+        value: https://api.channel3.ai/v1
 
   # 2. Frontend React / Vite Static Site
   - type: web

@@ -51,6 +51,12 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { to: '/workspace', label: 'AI Copilot', icon: Sparkles },
+    {
+      to: '/workspace?mode=agent',
+      label: 'Agent Pilot',
+      icon: Zap,
+      badgeText: '$5k Track',
+    },
     { to: '/catalogue', label: 'Catalogue', icon: Radio },
     {
       to: '/compare',
@@ -99,7 +105,7 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* Interactive Live PayPal & Gemini Status Badge with Equalizer */}
+          {/* Interactive Live PayPal, Gemini & Channel3 Status Badge with Equalizer */}
           <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/80 border border-border/80 text-[11px] font-mono text-foreground-muted shadow-xs backdrop-blur-sm group/status relative cursor-default hover:border-accent/40 transition-colors">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
@@ -110,6 +116,10 @@ export const Navbar: React.FC = () => {
             <span className="text-accent text-[10px] font-semibold flex items-center gap-0.5">
               <Zap className="w-2.5 h-2.5" />
               <span>GEMINI 2.5</span>
+            </span>
+            <span className="text-foreground-muted/60">•</span>
+            <span className="text-success text-[10px] font-semibold flex items-center gap-0.5">
+              <span>CHANNEL3 100M+</span>
             </span>
 
             {/* Micro AI Equalizer bars */}
@@ -122,7 +132,7 @@ export const Navbar: React.FC = () => {
 
             {/* Hover Tooltip */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 rounded-md bg-foreground text-surface text-[10px] font-sans font-medium whitespace-nowrap shadow-lg opacity-0 pointer-events-none group-hover/status:opacity-100 transition-opacity z-50">
-              Verified Sandbox REST API & Deterministic Grounding
+              PayPal Sandbox v2 • Gemini 2.5 Flash • Channel3 100M+ Product Graph
             </div>
           </div>
         </div>
@@ -134,7 +144,10 @@ export const Navbar: React.FC = () => {
         >
           {navLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = location.pathname === link.to;
+            const currentFullPath = `${location.pathname}${location.search}`;
+            const isActive = link.to.includes('?')
+              ? currentFullPath === link.to
+              : location.pathname === link.to && !location.search.includes('mode=agent');
 
             return (
               <Link
@@ -176,6 +189,11 @@ export const Navbar: React.FC = () => {
                     >
                       {link.badge}
                     </motion.span>
+                  )}
+                  {link.badgeText && (
+                    <span className="ml-0.5 px-1.5 py-0.2 rounded-full bg-accent/15 text-accent text-[9px] font-mono font-bold border border-accent/30">
+                      {link.badgeText}
+                    </span>
                   )}
                 </span>
               </Link>
@@ -292,6 +310,11 @@ export const Navbar: React.FC = () => {
                     {link.badge && (
                       <span className="ml-auto px-1.5 py-0.2 rounded-full bg-white/20 text-[10px] font-mono">
                         {link.badge}
+                      </span>
+                    )}
+                    {link.badgeText && (
+                      <span className="ml-auto px-1.5 py-0.2 rounded-full bg-accent/20 text-[9px] font-mono font-bold">
+                        {link.badgeText}
                       </span>
                     )}
                   </Link>

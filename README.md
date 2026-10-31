@@ -5,8 +5,10 @@
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](#)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-blue)](#)
-[![Tests](https://img.shields.io/badge/tests-13%20passed-success)](#)
+[![Tests](https://img.shields.io/badge/tests-16%20passed-success)](#)
 [![PayPal](https://img.shields.io/badge/PayPal-Sandbox%20v2-0070BA)](#)
+[![Agentic Commerce](https://img.shields.io/badge/Track-Agentic%20Commerce%20$5k-FF5B31)](#)
+[![Channel3](https://img.shields.io/badge/Channel3-100M%2B%20Products%20Sponsor-00C48C)](#)
 [![Gemini](https://img.shields.io/badge/AI-Gemini%202.5%20Flash%20%2B%20Heuristic%20Engine-8E75C4)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
@@ -30,6 +32,8 @@ Users describe what they need in natural language. PayPilot AI:
 
 | Feature | Description |
 | :--- | :--- |
+| 🤖 **Autonomous Agentic Engine** | Multi-step autonomous agent browsing Channel3, knapsack budget-optimizing bundles, and pre-staging PayPal checkout (**$5,000 Agentic Track**). |
+| 📦 **Channel3 100M+ Products** | Live integration with Channel3 e-commerce index (**$1,500 Sponsor Prize**) querying live retail products across merchants. |
 | 💬 **Conversational AI Workspace** | Chat with an intelligent copilot that asks clarifying questions, parses budget ceilings, and extracts must-have attributes in real-time. |
 | 🎯 **Deterministic Spec Ranking** | Verifiable specs (battery life, dimensions, ANC, connectivity) are scored using transparent mathematical weights rather than opaque LLM guesses. |
 | ⚖️ **Side-by-Side Comparison Matrix** | Multi-product cross-analysis (up to 4 items) evaluating price, battery stamina, user ratings, strengths, and AI-synthesized trade-offs. |
@@ -94,7 +98,8 @@ For complete technical specifications, see [docs/ARCHITECTURE.md](docs/ARCHITECT
 - **Payments**: Official PayPal Developer REST APIs (`/v1/oauth2/token`, `/v2/checkout/orders`, `/v2/checkout/orders/{id}/capture`)
 
 ### 🏆 Hackathon Sponsor Integrations
-- **PayPal Developer Platform**: Complete sandbox payment lifecycle, price verification & capture.
+- **PayPal Developer Platform (Primary & Agentic Commerce Track - $5,000)**: Complete sandbox payment lifecycle, autonomous checkout staging, price verification & capture.
+- **Channel3 (Sponsor Prize - $1,500)**: Integrated 100M+ real product graph search for autonomous retail product discovery.
 - **AG Grid**: Integrated in `apps/web` for advanced multi-column spec comparison and catalogue exploration.
 - **Postman**: Complete Postman collection included ([paypilot.postman_collection.json](paypilot.postman_collection.json)).
 - **Render**: Infrastructure-as-code deployment blueprint ([render.yaml](render.yaml)).

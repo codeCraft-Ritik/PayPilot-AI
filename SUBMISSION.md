@@ -2,13 +2,14 @@
 
 **Product Name**: PayPilot AI  
 **Tagline**: Your AI Shopping Copilot — Discover smarter. Compare better. Pay confidently.  
-**Category**: AI Shopping Intelligence & Fintech Assistant  
+**Category**: AI Shopping Intelligence & Agentic Commerce Assistant  
 **Event**: PayPal AI Hackathon  
+**Target Tracks**: **Agentic Commerce Track ($5,000)**, **Channel3 Sponsor Prize ($1,500)**, **Render Cloud Sponsor**, **AG Grid Sponsor**
 
 ---
 
 ## 💡 Elevator Pitch
-PayPilot AI transforms online shopping from manual spec hunting and endless browser tabs into an intelligent, conversational purchasing journey. Powered by Google Gemini and deterministic ranking algorithms, PayPilot AI extracts user constraints, evaluates budget suitability, explains product trade-offs with grounded evidence, and executes server-verified purchases through the **PayPal Sandbox REST API**.
+PayPilot AI transforms online shopping from manual spec hunting and endless browser tabs into an autonomous, conversational purchasing journey. Built for the **Agentic Commerce Track**, PayPilot AI features an autonomous agent that searches **Channel3's 100M+ real product graph**, executes budget knapsack optimization, provides visible step-by-step reasoning traces, and stages server-verified purchases through the **PayPal Sandbox REST API** with explicit human-in-the-loop authorization.
 
 ---
 
@@ -23,18 +24,21 @@ That was the spark for **PayPilot AI**.
 
 ## ⚡ What It Does
 
-1. **Conversational AI Shopping Workspace**: Users describe their goals, desired features (e.g., battery life, weight, connectivity), and budget. The AI parses the request into a structured intent schema.
-2. **Deterministic Spec Ranking & Grounded Evidence**: The AI never hallucinates product specs or prices. A mathematical scoring engine weights budget fit (40%), feature matching (40%), and review ratings (20%) from authoritative catalogue records.
-3. **Side-by-Side Trade-off Matrix**: Shortlist up to 4 products to compare specifications side-by-side with automatic spec-winner highlights and an AI Executive Verdict summarizing who each product is best for.
-4. **Interactive AG Grid Sponsor Explorer**: Toggle into the AG Grid interactive table to perform client-side multi-column sorting, floating text filtering, and direct cart additions powered by AG Grid Community.
-5. **Budget Intelligence**: A real-time visual progress bar monitors budget utilization, celebrates savings, and alerts the user of stretch overruns.
-6. **Transparent Multi-Currency**: Seamlessly switch between USD ($) and INR (₹) with disclosed, explicit conversion rates (1 USD = 83.5 INR).
-7. **Strict Server-Side Payment Integrity**:
+1. **Autonomous Agentic Commerce Engine ($5,000 Track)**: Users give high-level goals (e.g. *"Equip my desk with wireless ANC headphones and an ergonomic mouse under $300"*). The agent autonomously decomposes constraints, queries real inventory, optimizes budget bundles, and stages a PayPal Sandbox checkout session in < 2 minutes.
+2. **Channel3 100M+ Product Graph Integration ($1,500 Sponsor Prize)**: Connects to Channel3's product discovery engine to search live retail items across merchants with verified specs, ratings, and prices.
+3. **Live "Agent Mind" Execution Trace**: Transparent 6-phase reasoning console exposing every tool call, mathematical knapsack calculation, and anti-tamper security check.
+4. **Conversational AI Shopping Workspace**: Users can toggle between interactive copilot chat and autonomous agent dispatch.
+5. **Deterministic Spec Ranking & Grounded Evidence**: The AI never hallucinates product specs or prices. A mathematical scoring engine weights budget fit (40%), feature matching (40%), and review ratings (20%) from authoritative catalogue records.
+6. **Side-by-Side Trade-off Matrix**: Shortlist up to 4 products to compare specifications side-by-side with automatic spec-winner highlights and an AI Executive Verdict summarizing who each product is best for.
+7. **Interactive AG Grid Sponsor Explorer**: Toggle into the AG Grid interactive table to perform client-side multi-column sorting, floating text filtering, and direct cart additions powered by AG Grid Community.
+8. **Budget Intelligence**: A real-time visual progress bar monitors budget utilization, celebrates savings, and alerts the user of stretch overruns.
+9. **Transparent Multi-Currency**: Seamlessly switch between USD ($) and INR (₹) with disclosed, explicit conversion rates (1 USD = 83.5 INR).
+10. **Strict Server-Side Payment Integrity**:
    - Client prices are untrusted.
    - The backend recalculates order subtotals and shipping rules from trusted database records.
    - Explicit user approval checkbox is required before initializing payment sessions.
    - Order creation and capture occur server-to-server via the official PayPal Sandbox REST API (`/v2/checkout/orders`).
-8. **Shopping Insights Dashboard**: Real-time spending analytics computed directly from the verified PayPal sandbox transaction ledger.
+11. **Shopping Insights Dashboard**: Real-time spending analytics computed directly from the verified PayPal sandbox transaction ledger.
 
 ---
 
@@ -45,9 +49,10 @@ We built PayPilot AI as a modular TypeScript monorepo designed with tactile brut
 - **Frontend (`apps/web`)**: React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, TanStack Query, Lucide icons, and **AG Grid** Community.
 - **Backend API (`apps/api`)**: Node.js, Express, TypeScript, Zod schema validation, Helmet security headers, CORS whitelisting.
 - **Shared Layer (`packages/shared`)**: Shared TypeScript types, Zod contracts, and currency conversion standards.
-- **AI Service Abstraction**:
-  - Primary: Google Gemini (`gemini-2.5-flash`) with structured JSON schema outputs.
-  - Fallback: Deterministic Heuristic NLP Engine ensuring zero-crash resilience even if API keys are absent or rate-limited.
+- **AI & Agent Service Layer**:
+   - Primary: Google Gemini (`gemini-2.5-flash`) with structured JSON schema outputs.
+   - Channel3 Product Client: Real-time queries against Channel3 100M+ e-commerce index with resilient fallback.
+   - Autonomous Knapsack Engine: Mathematical combinatorial budget-optimizer.
 - **PayPal Integration**: Official PayPal Developer REST APIs for OAuth2 token generation, order creation, and server-side payment capture.
 
 ---
@@ -56,18 +61,22 @@ We built PayPilot AI as a modular TypeScript monorepo designed with tactile brut
 
 We specifically incorporated and documented key hackathon sponsor tools:
 
-1. **PayPal Developer Platform (Primary)**:
+1. **PayPal Developer Platform (Primary & Agentic Commerce Track - $5,000)**:
    - Server-to-server OAuth2 client-credentials authentication.
    - Server-side `v2/checkout/orders` order creation and capture.
+   - Autonomous checkout pre-staging with human-in-the-loop authorization guardrail.
    - Strict price recalculation and idempotency defense against duplicate payments.
-2. **AG Grid (Sponsor Track)**:
+2. **Channel3 (Sponsor Prize - $1,500)**:
+   - Direct integration with Channel3's 100M+ real product graph (`channel3.service.ts`).
+   - Powers real-time inventory queries, live merchant prices, and realistic catalog specs.
+3. **AG Grid (Sponsor Track)**:
    - Integrated `ag-grid-react` and `ag-grid-community` (v36) with `themeQuartz`.
    - Powers the interactive multi-column sorting, text filtering, and pagination in the Comparison and Catalogue views.
-3. **Postman (Sponsor Track)**:
+4. **Postman (Sponsor Track)**:
    - Comprehensive, exportable Postman collection (`paypilot.postman_collection.json`) with pre-configured requests, environment variables, and health checks for all endpoints.
-4. **Render (Sponsor Track)**:
+5. **Render (Sponsor Track)**:
    - Infrastructure-as-code `render.yaml` blueprint enabling 1-click cloud deployment of both the API service and frontend static site.
-5. **APIMatic (Sponsor Track)**:
+6. **APIMatic (Sponsor Track)**:
    - Full OpenAPI 3.0 specification (`docs/openapi.json`) ready for APIMatic SDK generation and interactive documentation.
 
 ---
@@ -82,8 +91,9 @@ We specifically incorporated and documented key hackathon sponsor tools:
 
 ## 🎉 Accomplishments We're Proud Of
 
-- **13/13 Automated Integration Tests Passing**: Testing health, AI extraction, deterministic ranking, price tampering rejection, and idempotent PayPal capture.
-- **Tactile Brutalist Visual System**: Moving away from generic SaaS templates to create a distinctive, confident fintech identity with Inter typography, monospace accents, and responsive layout.
+- **16/16 Automated Integration Tests Passing**: Testing health, AI extraction, deterministic ranking, Channel3 product search, multi-step autonomous agent loop, price tampering rejection, and idempotent PayPal capture.
+- **Autonomous Multi-Step Commerce Agent ($5,000 Track)**: Decomposes complex multi-item goals, searches 100M+ real Channel3 products, optimizes knapsack budget bundles, and stages PayPal Sandbox checkout with full human-in-the-loop protection.
+- **Tactile Brutalist & Gen-Z Visual System**: Moving away from generic SaaS templates to create a distinctive, confident fintech identity with Inter typography, monospace accents, kinetic marquees, and responsive layout.
 - **True Dual-Engine AI Architecture**: The application never crashes—running seamlessly with live Gemini 2.5 Flash or its built-in deterministic heuristic fallback.
 - **End-to-End Working Flow**: From natural language prompt to side-by-side comparison, cart review, explicit approval, PayPal capture, and verified receipt.
 

@@ -6,10 +6,12 @@ import { orderController } from '../modules/orders/order.controller.js';
 import { insightsController } from '../modules/insights/insights.controller.js';
 import { aiService } from '../modules/ai/ai.service.js';
 import { paypalClient } from '../modules/payments/paypal.client.js';
+import { channel3Service } from '../modules/channel3/channel3.service.js';
+import { autonomousAgentService } from '../modules/agent/autonomous.agent.js';
 
 export const apiRouter = Router();
 
-// Health & System Info
+// Health & System Info (Includes Sponsor Integrations & Agentic Status)
 apiRouter.get('/health', (_req, res) => {
   res.json({
     status: 'healthy',
@@ -18,7 +20,47 @@ apiRouter.get('/health', (_req, res) => {
     isUsingAiFallback: aiService.isUsingFallback(),
     paypalConfigured: paypalClient.isConfigured(),
     paypalEnvironment: 'sandbox',
+    channel3: channel3Service.getStatus(),
+    agenticCommerceActive: true,
   });
+});
+
+// Channel3 Sponsor Track API ($1,500 Prize - 100M+ Products)
+apiRouter.get('/channel3/status', (_req, res) => {
+  res.json(channel3Service.getStatus());
+});
+
+apiRouter.post('/channel3/search', async (req, res, next) => {
+  try {
+    const { query, category, maxPriceUsd, limit } = req.body;
+    const results = await channel3Service.search(query || '', {
+      category,
+      maxPriceUsd,
+      limit,
+    });
+    res.json(results);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Autonomous Agentic Commerce Flow ($5,000 Prize Track)
+apiRouter.post('/agent/autonomous-plan', async (req, res, next) => {
+  try {
+    const { goal, targetBudgetUsd, currency } = req.body;
+    if (!goal || typeof goal !== 'string') {
+      res.status(400).json({ success: false, error: 'A natural language goal is required' });
+      return;
+    }
+    const plan = await autonomousAgentService.executePlan({
+      goal,
+      targetBudgetUsd,
+      currency,
+    });
+    res.json({ success: true, plan });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Products
@@ -49,3 +91,4 @@ apiRouter.get('/orders/:id', (req, res, next) => orderController.getById(req, re
 
 // Insights
 apiRouter.get('/insights', (req, res, next) => insightsController.getInsights(req, res, next));
+

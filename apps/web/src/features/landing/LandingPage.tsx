@@ -421,11 +421,12 @@ export const LandingPage: React.FC = () => {
                 {/* Direct CTA */}
                 <button
                   onClick={() =>
-                    navigate(`/workspace?q=${encodeURIComponent(currentPreset.prompt)}`)
+                    navigate(`/workspace?mode=agent&q=${encodeURIComponent(currentPreset.prompt)}`)
                   }
                   className="w-full py-2.5 rounded-xl bg-foreground text-surface hover:bg-accent text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-tactile active:scale-95"
                 >
-                  <span>Test this in Live AI Workspace</span>
+                  <Zap className="w-3.5 h-3.5 text-accent" />
+                  <span>Launch in Autonomous Agent Pilot ($5k Track)</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -636,6 +637,17 @@ export const LandingPage: React.FC = () => {
                     priority: "comfort"
                   </span>
                 </div>
+              </div>
+
+              <div className="pt-2">
+                <Link
+                  to="/workspace?mode=agent"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-white font-mono text-[11px] font-bold shadow-xs hover:bg-accent-hover transition-colors"
+                >
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>Test Autonomous Agent Engine ($5k Prize Track)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </motion.div>
 

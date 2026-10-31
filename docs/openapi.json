@@ -183,6 +183,63 @@
           "200": { "description": "Aggregated spending and transaction metrics" }
         }
       }
+    },
+    "/channel3/status": {
+      "get": {
+        "summary": "Channel3 100M+ Products Sponsor Status",
+        "operationId": "getChannel3Status",
+        "responses": {
+          "200": { "description": "Status and metrics for the Channel3 integration" }
+        }
+      }
+    },
+    "/channel3/search": {
+      "post": {
+        "summary": "Search Channel3 100M+ Product Graph",
+        "operationId": "searchChannel3",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": { "type": "string" },
+                  "limit": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Product search results from Channel3 graph" }
+        }
+      }
+    },
+    "/agent/autonomous-plan": {
+      "post": {
+        "summary": "Execute Autonomous Agentic Commerce Plan ($5,000 Track)",
+        "operationId": "executeAutonomousAgentPlan",
+        "description": "Multi-step agent loop: Decomposes goal, queries Channel3 100M+ graph, knapsack optimizes budget, and pre-stages PayPal Sandbox checkout.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["goal"],
+                "properties": {
+                  "goal": { "type": "string" },
+                  "targetBudgetUsd": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Autonomous agent plan with 6-phase reasoning traces and pre-staged PayPal order" }
+        }
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ import {
   CreateCartOrderInput,
   CaptureOrderInput,
   OrderRecord,
+  AutonomousAgentPlan,
 } from '@paypilot/shared';
 
 const API_BASE = '/api';
@@ -155,5 +156,35 @@ export const api = {
     if (!res.ok) throw new Error('Failed to load shopping insights');
     const data = await res.json();
     return data.data;
+  },
+
+  async runAutonomousAgent(input: {
+    goal: string;
+    targetBudgetUsd?: number;
+    currency?: 'USD' | 'INR';
+  }): Promise<AutonomousAgentPlan> {
+    const res = await fetch(`${API_BASE}/agent/autonomous-plan`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(input),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to execute autonomous agent plan');
+    }
+    const data = await res.json();
+    return data.plan;
+  },
+
+  async getChannel3Status(): Promise<{
+    sponsor: string;
+    track: string;
+    isLive: boolean;
+    status: string;
+    indexedCatalogSize: string;
+  }> {
+    const res = await fetch(`${API_BASE}/channel3/status`);
+    if (!res.ok) throw new Error('Failed to fetch Channel3 status');
+    return res.json();
   },
 };

@@ -9,15 +9,18 @@ import {
   AlertCircle,
   HelpCircle,
   ArrowRight,
+  Zap,
 } from 'lucide-react';
 import {
   ShoppingAssistantResponse,
   SAMPLE_QUERIES,
+  AutonomousAgentPlan,
 } from '@paypilot/shared';
 import { api } from '../../services/api.js';
 import { useApp } from '../../context/AppContext.js';
 import { ProductCard } from '../../components/shared/ProductCard.js';
 import { BudgetBar } from '../../components/shared/BudgetBar.js';
+import { AutonomousAgentConsole } from './AutonomousAgentConsole.js';
 
 interface ChatMessage {
   id: string;
@@ -28,14 +31,23 @@ interface ChatMessage {
 }
 
 export const ShoppingWorkspace: React.FC = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
+  const initialMode = searchParams.get('mode') === 'agent' ? 'autonomous_agent' : 'copilot';
 
   const {
     currency,
     setUserBudgetUsd,
     comparedProductIds,
+    addToCart,
+    clearCart,
+    setIsCheckoutOpen,
+    formatPrice,
   } = useApp();
+
+  const [workspaceMode, setWorkspaceMode] = useState<'copilot' | 'autonomous_agent'>(initialMode);
+  const [autonomousPlan, setAutonomousPlan] = useState<AutonomousAgentPlan | null>(null);
+  const [isAgentLoading, setIsAgentLoading] = useState(false);
 
   const [inputQuery, setInputQuery] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,8 +61,10 @@ export const ShoppingWorkspace: React.FC = () => {
 
   // Auto-run if query param is provided on mount
   useEffect(() => {
-    if (initialQuery) {
+    if (initialQuery && workspaceMode === 'copilot') {
       handleSend(initialQuery);
+    } else if (initialQuery && workspaceMode === 'autonomous_agent') {
+      handleRunAgent(initialQuery);
     }
   }, [initialQuery]);
 
@@ -108,56 +122,138 @@ export const ShoppingWorkspace: React.FC = () => {
     handleSend(question);
   };
 
+  // Autonomous Agent Runner
+  const handleRunAgent = async (goal: string) => {
+    setIsAgentLoading(true);
+    setErrorMessage(null);
+    try {
+      const plan = await api.runAutonomousAgent({
+        goal,
+        currency,
+      });
+      setAutonomousPlan(plan);
+      if (plan.targetBudgetUsd) {
+        setUserBudgetUsd(plan.targetBudgetUsd);
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Failed to execute autonomous plan');
+    } finally {
+      setIsAgentLoading(false);
+    }
+  };
+
+  // Autonomous Cart Approval & PayPal Modal Launch
+  const handleApproveAgentPlan = (plan: AutonomousAgentPlan) => {
+    clearCart();
+    plan.selectedProducts.forEach((p) => {
+      addToCart(p, 1);
+    });
+    setIsCheckoutOpen(true);
+  };
+
+  const switchMode = (mode: 'copilot' | 'autonomous_agent') => {
+    setWorkspaceMode(mode);
+    setSearchParams(mode === 'autonomous_agent' ? { mode: 'agent' } : {});
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Breadcrumb & Status Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight text-foreground">AI Shopping Workspace</h1>
             <span className="px-2 py-0.5 rounded bg-accent-subtle text-accent border border-accent-border text-[11px] font-mono font-semibold">
-              SPLIT INTELLIGENCE
+              {workspaceMode === 'autonomous_agent' ? 'AGENTIC COMMERCE ($5,000)' : 'SPLIT INTELLIGENCE'}
+            </span>
+            <span className="px-2 py-0.5 rounded bg-success/10 text-success border border-success/20 text-[10px] font-mono font-semibold hidden md:inline-flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+              <span>CHANNEL3 100M+ GRAPH</span>
             </span>
           </div>
           <p className="text-xs text-foreground-muted mt-0.5">
-            Conversational requirement extraction paired with deterministic spec ranking and transparent budget intelligence.
+            {workspaceMode === 'autonomous_agent'
+              ? 'Multi-step autonomous agent browsing 100M+ real Channel3 products, knapsack optimizing budget, and staging PayPal checkout.'
+              : 'Conversational requirement extraction paired with deterministic spec ranking and transparent budget intelligence.'}
           </p>
         </div>
 
-        {/* Comparison Action Bar if items selected */}
-        {comparedProductIds.length > 0 && (
-          <Link
-            to="/compare"
-            className="px-3 py-1.5 rounded bg-foreground text-surface text-xs font-semibold flex items-center gap-1.5 shadow-tactile hover:bg-accent transition-colors self-start sm:self-auto"
-          >
-            <Scale className="w-3.5 h-3.5" />
-            <span>Compare {comparedProductIds.length} Products</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        )}
-      </div>
-
-      {/* Main Workspace Split Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Conversational Assistant Thread (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col h-[750px] rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm shadow-tactile-lg overflow-hidden">
-          {/* Thread Header */}
-          <div className="p-3.5 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-accent flex items-center justify-center text-white">
-                <Sparkles className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-xs font-semibold text-foreground">Copilot Conversation</span>
-            </div>
-
-            {/* AI Model Badge */}
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-border text-foreground-muted">
-              {activeAssistantResponse?.modelIdentifier || 'Gemini 2.5 Flash / Smart Engine'}
-            </span>
+        {/* Operating Mode Selector + Comparison Action */}
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Mode Switcher Pill */}
+          <div className="flex items-center p-0.5 rounded-xl border border-border bg-surface-subtle text-xs font-mono shadow-xs">
+            <button
+              type="button"
+              onClick={() => switchMode('copilot')}
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+                workspaceMode === 'copilot'
+                  ? 'bg-surface text-foreground font-bold shadow-xs'
+                  : 'text-foreground-muted hover:text-foreground'
+              }`}
+            >
+              <Bot className="w-3.5 h-3.5 text-accent" />
+              <span>Copilot Chat</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => switchMode('autonomous_agent')}
+              className={`px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+                workspaceMode === 'autonomous_agent'
+                  ? 'bg-accent text-white font-bold shadow-xs'
+                  : 'text-foreground-muted hover:text-foreground'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Autonomous Agent</span>
+              <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[9px] font-bold">
+                $5k Track
+              </span>
+            </button>
           </div>
 
-          {/* Messages Stream */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {comparedProductIds.length > 0 && (
+            <Link
+              to="/compare"
+              className="px-3 py-1.5 rounded-lg bg-foreground text-surface text-xs font-semibold flex items-center gap-1.5 shadow-tactile hover:bg-accent transition-colors"
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span>Compare {comparedProductIds.length}</span>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Autonomous Agent Pilot Mode */}
+      {workspaceMode === 'autonomous_agent' ? (
+        <AutonomousAgentConsole
+          plan={autonomousPlan}
+          isLoading={isAgentLoading}
+          onExecuteGoal={handleRunAgent}
+          onApproveAndPay={handleApproveAgentPlan}
+          formatPrice={formatPrice}
+        />
+      ) : (
+        /* Standard Copilot Split Workspace Layout */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Conversational Assistant Thread (5 Cols) */}
+          <div className="lg:col-span-5 flex flex-col h-[750px] rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm shadow-tactile-lg overflow-hidden">
+            {/* Thread Header */}
+            <div className="p-3.5 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded bg-accent flex items-center justify-center text-white">
+                  <Sparkles className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs font-semibold text-foreground">Copilot Conversation</span>
+              </div>
+
+              {/* AI Model Badge */}
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-border text-foreground-muted">
+                {activeAssistantResponse?.modelIdentifier || 'Gemini 2.5 Flash / Smart Engine'}
+              </span>
+            </div>
+
+            {/* Messages Stream */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="h-full flex flex-col justify-center text-center p-4 space-y-4">
                 <div className="w-12 h-12 rounded-full bg-accent-subtle border border-accent-border text-accent flex items-center justify-center mx-auto">
@@ -444,6 +540,7 @@ export const ShoppingWorkspace: React.FC = () => {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 };

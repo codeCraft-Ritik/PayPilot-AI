@@ -246,6 +246,73 @@
           }
         }
       ]
+    },
+    {
+      "name": "Channel3 Sponsor API ($1,500 Prize)",
+      "item": [
+        {
+          "name": "Get Channel3 Status & 100M+ Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/channel3/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["channel3", "status"]
+            },
+            "description": "Returns status, endpoint, and index size for the Channel3 100M+ real product graph integration."
+          }
+        },
+        {
+          "name": "Search Channel3 100M+ Product Graph",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"wireless noise cancelling headphones\",\n  \"limit\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/channel3/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["channel3", "search"]
+            },
+            "description": "Executes live or verified replica search against Channel3 e-commerce index."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autonomous Agentic Commerce ($5,000 Track)",
+      "item": [
+        {
+          "name": "Execute Multi-Step Autonomous Agent Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"goal\": \"Equip my desk with wireless headphones and an ergonomic mouse under $300\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agent/autonomous-plan",
+              "host": ["{{baseUrl}}"],
+              "path": ["agent", "autonomous-plan"]
+            },
+            "description": "Decomposes shopping objective, queries Channel3 product graph, knapsack optimizes budget, and pre-stages PayPal Sandbox checkout session."
+          }
+        }
+      ]
     }
   ]
 }

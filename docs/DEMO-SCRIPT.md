@@ -1,50 +1,39 @@
-# PayPilot AI — Hackathon 3-Minute Demo Walkthrough
+# PayPilot AI — Hackathon Video Demo Walkthrough (< 2 Minutes)
 
-**Target Duration**: 2 minutes 45 seconds  
-**Objective**: Demonstrate conversational discovery, grounded evidence, budget intelligence, side-by-side trade-off matrix, and verified PayPal Sandbox checkout.
+**Target Duration**: 1 minute 50 seconds (Under 2-minute judge requirement)  
+**Target Tracks**: **Agentic Commerce Track ($5,000)**, **Channel3 Sponsor Prize ($1,500)**, **Render Cloud Sponsor**, **AG Grid Sponsor**
 
 ---
 
 ### Step 1: Hook & Core Problem (0:00 - 0:25)
 - Open `http://localhost:5173/`.
-- *"Online shopping forces users to juggle 10 open browser tabs, decipher confusing technical specifications, and cross-check prices manually. PayPilot AI solves this by bringing AI intelligence, deterministic spec comparison, and verified PayPal checkout into one unified copilot."*
+- *"Online shopping forces users to juggle 10 browser tabs and decipher specs manually, while generic chatbots hallucinate prices. PayPilot AI solves this by introducing an autonomous shopping agent that browses real-time product graphs, knapsack optimizes your budget, and stages verified PayPal checkout."*
 
-### Step 2: Natural Language Shopping Query (0:25 - 1:00)
-- In the hero search box (or clicking the sample prompt):
-  - Enter: `"Find wireless headphones under $150 with good battery life, comfortable fit, and a microphone suitable for online meetings."`
-  - Click **Ask Pilot**.
-- The page transitions to the **AI Shopping Workspace** (`/workspace`):
-  - Point out the **Extracted Intent** panel: Category identified as `audio`, Target Budget extracted as `$150.00`, and Must-Have Features identified as `battery`, `microphone`, `wireless`.
-  - Point out the **Budget Utilization Bar**: Shows real-time budget comparison.
-  - Show the top recommended product: **Anker Soundcore Space Q45** (95% Match Score) with grounded reasoning: citing its 50-hour battery life and honest trade-offs.
+### Step 2: Autonomous Agentic Commerce & Channel3 (0:25 - 1:05)
+- From the floating navbar, click **Agent Pilot ($5k Track)** or in `/workspace?mode=agent`:
+- Click the demonstration mission:  
+  **"Equip my desk with wireless ANC headphones and an ergonomic mouse under $300"**
+- Click **Dispatch Agent**.
+- Watch the live **Agent Reasoning Trace (6 Phases)** execute in seconds:
+  1. 🧠 **Goal Decomposition**: Parses category requirements (`audio` + `peripherals`) and strict ceiling (`$300.00`).
+  2. 🔍 **Channel3 Query**: Searches **Channel3's 100M+ real product graph** for wireless ANC headphones and ergonomic mice.
+  3. ⚖️ **Deterministic Spec Scoring**: Evaluates real battery life, noise cancellation, and user ratings without hallucination.
+  4. 💰 **Combinatorial Budget Knapsack Optimization**: Pairs the Sony WH-1000XM4/Anker Space Q45 and Logitech Mouse into an optimal bundle under $300.
+  5. 🛒 **Server-Side Cart Assembly**: Enforces zero price tampering with authoritative server recalculation.
+  6. 💳 **PayPal Sandbox v2 Staging**: Generates official PayPal Sandbox Order ID automatically.
 
-### Step 3: Side-by-Side Trade-off Comparison (1:00 - 1:40)
-- On the product cards, click the **Compare** scale button on:
-  1. `Anker Soundcore Space Q45` ($129.99)
-  2. `Sony WH-1000XM5` ($398.00)
-  3. `Bose QuietComfort 45` ($279.00)
-- Click **Compare 3 Products** in the header to open `/compare`:
-  - Show the **AI Executive Verdict**: Explains why Anker is best value, while Sony leads in absolute noise cancellation.
-  - Review the **Attribute Specification Matrix**: Highlighting battery hours winner (Anker: 50h) vs ANC winner (Sony).
+### Step 3: Human-in-the-Loop Safe Approval (1:05 - 1:30)
+- Point to the **Budget Utilization Gauge**: 
+  - Subtotal: $229.98 / $300.00 USD (+$70.02 saved capital!).
+- Click **"Approve Agent's Choice & Pay with PayPal ($229.98)"**.
+- The **Checkout Modal** appears with pre-populated, verified line items.
+- Point out the security safeguard: The autonomous agent prepares the transaction, but **explicit user authorization** is required before capturing funds.
+- Check the approval box and click **Authorize & Complete Sandbox Payment**.
 
-### Step 4: Cart & Explicit Approval (1:40 - 2:15)
-- On the comparison table, click **Add to Cart** on the Anker Space Q45.
-- The **Shopping Cart Drawer** opens:
-  - Show authoritative subtotal ($129.99) and free shipping calculation.
-  - Click **Proceed to PayPal Sandbox**.
-- The **Checkout Modal** appears:
-  - Emphasize the **Explicit User Approval requirement**: The user remains in full control of their purchase.
-  - Check the confirmation box: *"I approve submitting this order of $129.99 USD to PayPal Sandbox"*.
-  - Click **Initialize PayPal Sandbox Session**.
-
-### Step 5: Verified Payment & Order Confirmation (2:15 - 2:35)
-- Click **Authorize & Complete Sandbox Payment**.
-- Show the server-side verification animation.
-- The **Order Confirmation Screen** (`/order/ord_...`) loads:
-  - Show the verified **PayPal Capture ID**, timestamp, itemized breakdown, and status: `COMPLETED (CAPTURED)`.
-  - Highlight that server-side recalculation prevented any client price tampering.
-
-### Step 6: Shopping Insights & Closing (2:35 - 2:50)
-- Click **View Spending Dashboard** (`/insights`):
-  - Show real-time verified stats: Total purchases, verified sandbox spend in USD, and category breakdown.
-- *"PayPilot AI: Discover smarter, compare better, pay confidently."*
+### Step 4: Verified Receipt, Sponsor Stack & Closing (1:30 - 1:50)
+- The **Order Confirmation Screen** immediately loads:
+  - Highlights verified **PayPal Capture ID**, timestamp, and status: `COMPLETED`.
+- Open **Insights Dashboard** (`/insights`):
+  - Shows real-time spend analytics computed directly from the completed PayPal transaction ledger.
+- Conclude:
+  - *"In under two minutes, PayPilot AI autonomously found, optimized, and captured a real multi-item purchase using Channel3 and PayPal Sandbox. Thank you!"*

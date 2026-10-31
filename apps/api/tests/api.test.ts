@@ -1,13 +1,23 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import request from 'supertest';
+import { describe, it, expect, beforeEach, beforeAll, afterAll } from 'vitest';
 import { app } from '../src/app.js';
 import { deterministicRankingEngine } from '../src/modules/recommendations/ranking.engine.js';
 import { deterministicFallbackProvider } from '../src/modules/ai/fallback.provider.js';
 import { productService } from '../src/modules/products/product.service.js';
 import { paymentService } from '../src/modules/payments/payment.service.js';
 import { orderRepository } from '../src/modules/orders/order.repository.js';
+import { createTestRequester } from './test-client.js';
+
+const testClient = createTestRequester(app);
+const request = (_app: unknown) => testClient.req();
 
 describe('PayPilot AI API & Business Logic', () => {
+  beforeAll(async () => {
+    await testClient.start();
+  });
+
+  afterAll(async () => {
+    await testClient.stop();
+  });
   describe('Health Endpoint', () => {
     it('returns healthy status with AI and PayPal metadata', async () => {
       const res = await request(app).get('/api/health');
@@ -177,6 +187,50 @@ describe('PayPilot AI API & Business Logic', () => {
       expect(res.body.data).toHaveProperty('completedOrdersCount');
       expect(res.body.data).toHaveProperty('totalSandboxSpendUsd');
       expect(res.body.data).toHaveProperty('categorySpending');
+    });
+  });
+
+  describe('Channel3 100M+ Products Sponsor Track ($1,500 Prize)', () => {
+    it('exposes Channel3 status and catalog metrics', async () => {
+      const res = await request(app).get('/api/channel3/status');
+      expect(res.status).toBe(200);
+      expect(res.body.sponsor).toBe('Channel3');
+      expect(res.body.indexedCatalogSize).toContain('100,000,000+');
+    });
+
+    it('queries Channel3 product graph for items', async () => {
+      const res = await request(app)
+        .post('/api/channel3/search')
+        .send({ query: 'wireless headphones', limit: 4 });
+      expect(res.status).toBe(200);
+      expect(res.body.products.length).toBeGreaterThan(0);
+      expect(res.body).toHaveProperty('source');
+      expect(res.body).toHaveProperty('totalAvailable');
+    });
+  });
+
+  describe('Autonomous Agentic Commerce Loop ($5,000 Track)', () => {
+    it('executes end-to-end multi-step agent flow and pre-stages PayPal checkout', async () => {
+      const res = await request(app)
+        .post('/api/agent/autonomous-plan')
+        .send({
+          goal: 'Equip my desk with wireless headphones and an ergonomic mouse under $300',
+        });
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      const plan = res.body.plan;
+      expect(plan.targetBudgetUsd).toBe(300);
+      expect(plan.traces.length).toBe(6); // 6 distinct agent reasoning steps
+      expect(plan.traces[0].type).toBe('intent_decomposition');
+      expect(plan.traces[1].type).toBe('channel3_query');
+      expect(plan.traces[2].type).toBe('spec_evaluation');
+      expect(plan.traces[3].type).toBe('budget_optimization');
+      expect(plan.traces[4].type).toBe('cart_assembly');
+      expect(plan.traces[5].type).toBe('payment_preparation');
+      expect(plan.bundleTotalUsd).toBeLessThanOrEqual(300);
+      expect(plan.selectedProducts.length).toBeGreaterThanOrEqual(2);
+      expect(plan.isReadyForPayment).toBe(true);
+      expect(plan.preStagedCartItems.length).toBeGreaterThanOrEqual(2);
     });
   });
 });
