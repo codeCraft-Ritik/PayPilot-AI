@@ -856,5 +856,76 @@
     "createdAt": "2026-10-31T07:27:09.129Z",
     "updatedAt": "2026-10-31T07:27:09.129Z",
     "paypalOrderId": "SANDBOX-SIM-MVW2VXHL-K7NA"
+  },
+  {
+    "id": "ord_1793431721296_mqynx",
+    "orderNumber": "PP-2026-161234",
+    "items": [
+      {
+        "productId": "prod-aud-03",
+        "name": "Bose QuietComfort 45 Bluetooth Wireless Headphones",
+        "quantity": 1,
+        "unitPrice": 279,
+        "totalPrice": 279
+      },
+      {
+        "productId": "prod-per-01",
+        "name": "Keychron Q1 Pro Wireless Custom Mechanical Keyboard",
+        "quantity": 1,
+        "unitPrice": 199.99,
+        "totalPrice": 199.99
+      }
+    ],
+    "subtotal": 478.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 478.99,
+    "currency": "USD",
+    "status": "PENDING_APPROVAL",
+    "createdAt": "2026-10-31T07:28:41.297Z",
+    "updatedAt": "2026-10-31T07:28:41.297Z",
+    "paypalOrderId": "SANDBOX-SIM-MVW2XWLT-3WRC"
+  },
+  {
+    "id": "ord_1793431906759_hywgh",
+    "orderNumber": "PP-2026-131669",
+    "items": [
+      {
+        "productId": "prod-aud-03",
+        "name": "Bose QuietComfort 45 Bluetooth Wireless Headphones",
+        "quantity": 1,
+        "unitPrice": 279,
+        "totalPrice": 279
+      },
+      {
+        "productId": "prod-per-01",
+        "name": "Keychron Q1 Pro Wireless Custom Mechanical Keyboard",
+        "quantity": 1,
+        "unitPrice": 199.99,
+        "totalPrice": 199.99
+      }
+    ],
+    "subtotal": 478.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 478.99,
+    "currency": "USD",
+    "status": "COMPLETED",
+    "createdAt": "2026-10-31T07:31:46.759Z",
+    "updatedAt": "2026-10-31T07:31:49.196Z",
+    "paypalOrderId": "SANDBOX-SIM-MVW31VPJ-VWF1",
+    "paypalCaptureId": "CAP-MVW31XL7-X9GMK",
+    "payerEmail": "sandbox-shopper@paypilot.demo",
+    "payerName": "Sandbox Shopper",
+    "verifiedAt": "2026-10-31T07:31:49.196Z",
+    "paymentDetails": {
+      "processor": "PAYPAL_SANDBOX",
+      "status": "COMPLETED",
+      "captureId": "CAP-MVW31XL7-X9GMK",
+      "createTime": "2026-10-31T07:31:49.196Z",
+      "updateTime": "2026-10-31T07:31:49.196Z",
+      "currency": "USD",
+      "amount": "478.99"
+    }
   }
 ]
