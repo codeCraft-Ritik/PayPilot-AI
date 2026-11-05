@@ -26,7 +26,6 @@ export class DeterministicFallbackAIProvider implements IAIProvider {
   ): Promise<ExtractedIntent> {
     const q = query.toLowerCase();
 
-    // 1. Detect category
     let category: ProductCategory | 'all' = 'all';
     if (context?.preferredCategory && context.preferredCategory !== 'all') {
       category = context.preferredCategory as ProductCategory;
@@ -46,7 +45,6 @@ export class DeterministicFallbackAIProvider implements IAIProvider {
       category = 'smart-home';
     }
 
-    // 2. Detect budget
     let budgetAmount: number | undefined = context?.userBudget;
     let budgetCurrency: 'USD' | 'INR' = context?.currency || 'USD';
     let isStrict = /under|max|budget of|within|less than|not more than|cap/i.test(q);

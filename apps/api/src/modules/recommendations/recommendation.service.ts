@@ -16,7 +16,6 @@ export class RecommendationService {
   ): Promise<ShoppingAssistantResponse> {
     const startTime = Date.now();
 
-    // 1. AI Intent Extraction
     const { intent, isFallback, providerName } = await aiService.parseShoppingIntent(
       input.query,
       {
@@ -26,7 +25,6 @@ export class RecommendationService {
       }
     );
 
-    // 2. Query Catalogue deterministically
     let candidates: Product[];
     if (intent.category && intent.category !== 'all') {
       candidates = productService.getProducts({ category: intent.category });
@@ -34,22 +32,18 @@ export class RecommendationService {
       candidates = productService.getProducts();
     }
 
-    // If query contains specific keywords, filter or re-rank candidate list
     if (candidates.length === 0) {
-      candidates = productService.getProducts(); // Fallback to full catalogue if category is too narrow
+      candidates = productService.getProducts();
     }
 
-    // 3. Generate grounded explanations from AI
     const explanations = await aiService.explainProductMatches(intent, candidates);
 
-    // 4. Deterministic Ranking
     const { recommendations, alternatives } = deterministicRankingEngine.rankProducts(
       candidates,
       intent,
       explanations
     );
 
-    // 5. Compose assistant summary message
     const categoryLabel = intent.category && intent.category !== 'all' ? intent.category : 'curated products';
     const budgetText = intent.targetBudget
       ? `within your ${intent.targetBudget.currency === 'INR' ? '₹' : '$'}${intent.targetBudget.amount.toLocaleString()} budget`
