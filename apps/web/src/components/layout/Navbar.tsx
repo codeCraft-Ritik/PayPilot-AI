@@ -75,7 +75,6 @@ export const Navbar: React.FC = () => {
             : 'glass-island shadow-sm'
         } px-3 sm:px-5 py-2 flex items-center justify-between gap-2`}
       >
-        {/* Subtle Ambient Scroll Progress Hairline */}
         <div className="absolute bottom-0 inset-x-8 h-[2px] overflow-hidden rounded-full pointer-events-none opacity-80">
           <div
             className="h-full bg-gradient-to-r from-accent via-indigo-500 to-accent transition-all duration-150 ease-out scroll-progress-line-css"
@@ -83,7 +82,6 @@ export const Navbar: React.FC = () => {
           />
         </div>
 
-        {/* Left Section: Brand Identity & Compact Live Status Badge */}
         <div className="flex items-center gap-3 shrink-0">
           <Link to="/" className="flex items-center gap-2 group shrink-0">
             <div className="relative w-8 h-8 rounded-full bg-foreground flex items-center justify-center text-white font-mono font-bold text-xs shadow-xs group-hover:scale-105 transition-transform duration-200">
@@ -101,7 +99,6 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* Compact Live Sandbox Status Pill (Space-conscious, never crushes center nav) */}
           <div
             className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-subtle/90 border border-border/80 text-[10px] font-mono text-foreground-muted cursor-default relative group/status shrink-0 transition-colors hover:border-accent/40"
             title="PayPal Sandbox v2 & Channel3 100M+ Graph Connected"
@@ -114,21 +111,18 @@ export const Navbar: React.FC = () => {
             <span className="text-foreground-muted/40">•</span>
             <span className="text-success font-semibold tracking-tight whitespace-nowrap">100M+ GRAPH</span>
 
-            {/* Micro AI Equalizer bars */}
             <div className="flex items-center gap-0.5 h-2.5 ml-0.5 pl-1.5 border-l border-border/80 shrink-0">
               <span className="w-0.5 bg-accent rounded-full animate-soundwave-1" />
               <span className="w-0.5 bg-accent rounded-full animate-soundwave-2" />
               <span className="w-0.5 bg-accent rounded-full animate-soundwave-3" />
             </div>
 
-            {/* Hover Tooltip */}
             <div className="absolute top-full left-0 mt-2 px-3 py-1.5 rounded-lg bg-foreground text-surface text-[11px] font-sans font-medium whitespace-nowrap shadow-xl opacity-0 pointer-events-none group-hover/status:opacity-100 transition-opacity z-50">
               PayPal Sandbox v2 • Gemini 2.5 Flash • Channel3 100M+ Catalog
             </div>
           </div>
         </div>
 
-        {/* Center Navigation Links (Clean, single-line, zero wrapping) */}
         <nav
           className="hidden md:flex items-center gap-1 p-1 rounded-full bg-surface-subtle/70 border border-border/50 shrink-0"
           onMouseLeave={() => setHoveredTab(null)}
@@ -151,7 +145,6 @@ export const Navbar: React.FC = () => {
                     : 'text-foreground-muted hover:text-foreground'
                 }`}
               >
-                {/* Active Sliding Indicator Pill */}
                 {isActive && (
                   <motion.div
                     layoutId="navbar-active-pill"
@@ -160,7 +153,6 @@ export const Navbar: React.FC = () => {
                   />
                 )}
 
-                {/* Hover Indicator Pill */}
                 {!isActive && hoveredTab === link.to && (
                   <motion.div
                     layoutId="navbar-hover-pill"
@@ -192,9 +184,7 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        {/* Right Actions: Currency Switcher + Cart + Mobile Hamburger */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {/* Segmented Currency Switcher */}
           <div className="flex items-center p-0.5 rounded-full border border-border/80 bg-surface-subtle/80 text-[11px] font-mono shadow-xs shrink-0">
             <button
               onClick={() => setCurrency('USD')}
@@ -203,7 +193,7 @@ export const Navbar: React.FC = () => {
                   ? 'bg-surface text-foreground font-bold shadow-xs border border-border/50'
                   : 'text-foreground-muted hover:text-foreground'
               }`}
-              title="Browse in USD (Base PayPal Checkout Currency)"
+              title="Browse in USD"
             >
               $ USD
             </button>
@@ -220,7 +210,6 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          {/* Interactive Cart Button with Spring Pop Badge */}
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative px-3 py-1.5 rounded-full border border-border/80 bg-surface hover:bg-surface-subtle text-foreground text-xs font-semibold flex items-center gap-2 transition-all shadow-xs active:scale-95 shrink-0"
@@ -241,7 +230,6 @@ export const Navbar: React.FC = () => {
             )}
           </button>
 
-          {/* Quick AI Launch Icon on Mobile */}
           <Link
             to="/workspace?mode=agent"
             className="md:hidden p-2 rounded-full bg-accent text-white shadow-xs active:scale-90 transition-transform shrink-0"
@@ -251,7 +239,6 @@ export const Navbar: React.FC = () => {
             <Zap className="w-4 h-4" />
           </Link>
 
-          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-1.5 rounded-full border border-border bg-surface text-foreground-muted hover:text-foreground transition-colors shrink-0"
@@ -262,7 +249,6 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Animated Glass Dropdown */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

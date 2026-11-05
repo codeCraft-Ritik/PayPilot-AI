@@ -233,11 +233,8 @@ export const ShoppingWorkspace: React.FC = () => {
           formatPrice={formatPrice}
         />
       ) : (
-        /* Standard Copilot Split Workspace Layout */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Conversational Assistant Thread (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col h-[750px] rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm shadow-tactile-lg overflow-hidden">
-            {/* Thread Header */}
             <div className="p-3.5 border-b border-border bg-surface-subtle/50 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded bg-accent flex items-center justify-center text-white">
@@ -246,13 +243,11 @@ export const ShoppingWorkspace: React.FC = () => {
                 <span className="text-xs font-semibold text-foreground">Copilot Conversation</span>
               </div>
 
-              {/* AI Model Badge */}
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-border text-foreground-muted">
                 {activeAssistantResponse?.modelIdentifier || 'Gemini 2.5 Flash / Smart Engine'}
               </span>
             </div>
 
-            {/* Messages Stream */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="h-full flex flex-col justify-center text-center p-4 space-y-4">
@@ -266,7 +261,6 @@ export const ShoppingWorkspace: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Quick Prompts */}
                 <div className="space-y-1.5 text-left pt-2">
                   <span className="text-[10px] font-mono uppercase text-foreground-muted block">
                     Quick suggestions:
@@ -365,7 +359,6 @@ export const ShoppingWorkspace: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Box Footer */}
           <div className="p-3 border-t border-border bg-surface space-y-2">
             <form
               onSubmit={(e) => {
@@ -399,11 +392,9 @@ export const ShoppingWorkspace: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Grounded Recommendations & Budget Intelligence (7 Cols) */}
         <div className="lg:col-span-7 space-y-6">
           {activeAssistantResponse ? (
             <>
-              {/* Intent Summary Box */}
               <div className="rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm p-5 shadow-tactile-lg space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono font-semibold uppercase text-accent tracking-wider flex items-center gap-1.5">
@@ -442,7 +433,6 @@ export const ShoppingWorkspace: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Session Budget Bar */}
                 {activeAssistantResponse.intent.targetBudget && (
                   <BudgetBar
                     currentAmountUsd={
@@ -456,7 +446,6 @@ export const ShoppingWorkspace: React.FC = () => {
                 )}
               </div>
 
-              {/* Top Recommendations Section */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-base font-bold text-foreground">

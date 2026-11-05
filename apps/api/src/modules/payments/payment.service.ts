@@ -19,7 +19,7 @@ export class PaymentService {
     paypalOrderId: string;
     isSimulated: boolean;
   }> {
-    // 1. Recalculate ALL prices authoritatively from database
+    // Authoritative server-side price recalculation from catalogue
     const verifiedItems: OrderItemRecord[] = [];
     let calculatedSubtotal = 0;
 
@@ -45,12 +45,11 @@ export class PaymentService {
       });
     }
 
-    // 2. Shipping & Tax policy: Free shipping over $50, otherwise $10 flat
+    // Free shipping threshold over $50
     const shippingFee = calculatedSubtotal >= 50 ? 0 : 10;
-    const estimatedTax = 0; // Transparent sandbox zero-tax policy
+    const estimatedTax = 0;
     const totalAmount = Math.round((calculatedSubtotal + shippingFee + estimatedTax) * 100) / 100;
 
-    // 3. Generate Local Order Record
     const orderId = `ord_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const orderNumber = `PP-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
 
@@ -68,7 +67,7 @@ export class PaymentService {
       updatedAt: new Date().toISOString(),
     };
 
-    // 4. Create PayPal Order on Sandbox
+    // Create PayPal Sandbox order
     const paypalOrder = await this.paypal.createOrder({
       totalAmount,
       currency: 'USD',
@@ -98,16 +97,16 @@ export class PaymentService {
       throw new Error(`Order ${input.orderId} does not exist`);
     }
 
-    // Check for duplicate capture attempt (Idempotency)
+    // Idempotent capture check
     if (order.status === 'COMPLETED' || order.status === 'CAPTURED') {
-      return order; // Already successfully captured
+      return order;
     }
 
     if (order.paypalOrderId && order.paypalOrderId !== input.paypalOrderId) {
       throw new Error('PayPal Order ID mismatch with registered order reference');
     }
 
-    // Capture on PayPal Sandbox
+    // Execute PayPal Sandbox capture
     const captureResult = await this.paypal.captureOrder(input.paypalOrderId);
 
     if (captureResult.status !== 'COMPLETED') {
@@ -124,7 +123,7 @@ export class PaymentService {
       ? `${captureResult.payer.name.given_name || ''} ${captureResult.payer.name.surname || ''}`.trim()
       : undefined;
 
-    // Update order with verified payment status
+    // Transition status to COMPLETED
     const verifiedOrder = this.orderRepo.update(order.id, {
       status: 'COMPLETED',
       paypalCaptureId: captureId,

@@ -73,7 +73,7 @@ We specifically incorporated and documented key hackathon sponsor tools:
    - Integrated `ag-grid-react` and `ag-grid-community` (v36) with `themeQuartz`.
    - Powers the interactive multi-column sorting, text filtering, and pagination in the Comparison and Catalogue views.
 4. **Postman (Sponsor Track)**:
-   - Comprehensive, exportable Postman collection (`paypilot.postman_collection.json`) with pre-configured requests, environment variables, and health checks for all endpoints.
+   - Exportable Postman collection (`paypilot.postman_collection.json`) with pre-configured requests, environment variables, and health checks for all endpoints.
 5. **Render (Sponsor Track)**:
    - Infrastructure-as-code `render.yaml` blueprint enabling 1-click cloud deployment of both the API service and frontend static site.
 6. **APIMatic (Sponsor Track)**:

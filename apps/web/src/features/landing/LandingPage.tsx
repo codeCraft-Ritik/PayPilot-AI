@@ -236,11 +236,10 @@ export const LandingPage: React.FC = () => {
                 </span>
               </h1>
               <p className="text-base sm:text-lg text-foreground-muted max-w-xl leading-relaxed">
-                PayPilot AI transforms online shopping from tedious spec sheets into an intelligent, conversational purchasing journey with transparent budget evaluation and verified PayPal sandbox checkout.
+                Search 100M+ real products, score technical trade-offs against your hard budget ceiling, and check out securely through the official PayPal Sandbox API.
               </p>
             </div>
 
-            {/* Studio-Grade AI Search Command Bar */}
             <form onSubmit={handleSearchSubmit} className="relative max-w-xl">
               <div className="relative rounded-2xl border-2 border-border/90 focus-within:border-accent bg-surface/90 backdrop-blur-md shadow-tactile-lg transition-all duration-300 focus-within:shadow-glow-accent group holo-border">
                 <div className="flex items-center p-2 sm:p-2.5 gap-2">
@@ -268,7 +267,6 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Sample Queries Chips with Flame Icons */}
               <div className="flex flex-wrap items-center gap-1.5 mt-3.5 pt-0.5">
                 <span className="text-[11px] font-mono text-foreground-muted mr-1 flex items-center gap-1">
                   <Flame className="w-3.5 h-3.5 text-warning animate-bounce" />
@@ -287,7 +285,6 @@ export const LandingPage: React.FC = () => {
               </div>
             </form>
 
-            {/* Core Value Micro-Pills */}
             <div className="grid grid-cols-3 gap-3 pt-5 border-t border-border/80 max-w-xl text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 rounded-full bg-success-subtle border border-success-border flex items-center justify-center text-success shrink-0">
@@ -435,7 +432,6 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Kinetic Infinite Marquee Ticker (Gen-Z & Studio signature element) */}
       <div className="w-full overflow-hidden border-y border-border/80 bg-surface/70 backdrop-blur-md py-3 shadow-xs relative">
         <div className="animate-marquee flex items-center gap-8 whitespace-nowrap text-xs font-mono font-bold tracking-wider text-foreground">
           <span className="flex items-center gap-2">
@@ -501,7 +497,6 @@ export const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Kinetic Metrics Grid (Kinetic Labs & Vektor Motion Vibe) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <motion.div
@@ -578,13 +573,12 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Gen-Z Bento Grid Showcase: "Bento Box of AI Commerce" */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <div className="max-w-2xl space-y-2">
             <span className="text-xs font-mono font-bold uppercase text-accent tracking-widest flex items-center gap-1.5">
               <Sliders className="w-3.5 h-3.5" />
-              <span>ARCHITECTURAL BENTO BOX</span>
+              <span>SYSTEM ARCHITECTURE</span>
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
               Built for speed. Grounded in truth.
@@ -595,7 +589,6 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-            {/* Bento 1: Natural Language Intent Engine (7 Cols) */}
             <motion.div
               whileHover={{ y: -4 }}
               className="md:col-span-7 rounded-3xl border border-border/80 bg-surface/90 backdrop-blur-md p-6 sm:p-8 shadow-tactile-lg space-y-4 holo-border relative overflow-hidden"
@@ -606,7 +599,7 @@ export const LandingPage: React.FC = () => {
                 </span>
                 <span className="text-[11px] font-mono text-foreground-muted flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-success" />
-                  <span>&lt;110ms Synapse</span>
+                  <span>&lt;110ms Latency</span>
                 </span>
               </div>
 
@@ -681,7 +674,6 @@ export const LandingPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Bento 3: Deterministic Scoring (5 Cols) */}
             <motion.div
               whileHover={{ y: -4 }}
               className="md:col-span-5 rounded-3xl border border-border/80 bg-surface/90 backdrop-blur-md p-6 sm:p-8 shadow-tactile-lg space-y-4 holo-border relative overflow-hidden"
@@ -708,7 +700,6 @@ export const LandingPage: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Bento 4: PayPal Sandbox Checkout (7 Cols) */}
             <motion.div
               whileHover={{ y: -4 }}
               className="md:col-span-7 rounded-3xl border border-border/80 bg-surface/90 backdrop-blur-md p-6 sm:p-8 shadow-tactile-lg space-y-4 holo-border relative overflow-hidden"
@@ -745,7 +736,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* The Industry Gap: Why PayPilot AI is Different (Hackathon Differentiator) */}
+      {/* Competitive Advantage */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-border/90 bg-surface/90 backdrop-blur-md p-6 sm:p-10 shadow-tactile-lg space-y-8 holo-border">
           <div className="max-w-3xl space-y-2">

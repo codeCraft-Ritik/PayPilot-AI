@@ -220,7 +220,6 @@ export const AutonomousAgentConsole: React.FC<AutonomousAgentConsoleProps> = ({
               {plan.agentExecutiveSummary}
             </p>
 
-            {/* Financial Ledger Gauge */}
             <div className="p-4 rounded-xl border border-border bg-surface-subtle/80 space-y-2.5">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-foreground-muted">Budget Utilization:</span>
@@ -229,7 +228,6 @@ export const AutonomousAgentConsole: React.FC<AutonomousAgentConsoleProps> = ({
                 </span>
               </div>
 
-              {/* Progress Bar */}
               <div className="w-full h-2.5 rounded-full bg-border overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-success to-emerald-400 rounded-full transition-all duration-500"
@@ -248,7 +246,6 @@ export const AutonomousAgentConsole: React.FC<AutonomousAgentConsoleProps> = ({
               </div>
             </div>
 
-            {/* 1-Click PayPal Sandbox Trigger */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-xs font-mono text-foreground-muted">
                 <Lock className="w-4 h-4 text-success" />
@@ -267,7 +264,6 @@ export const AutonomousAgentConsole: React.FC<AutonomousAgentConsoleProps> = ({
             </div>
           </div>
 
-          {/* Selected Optimized Bundle Products */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-1.5">
@@ -286,7 +282,6 @@ export const AutonomousAgentConsole: React.FC<AutonomousAgentConsoleProps> = ({
             </div>
           </div>
 
-          {/* Live Step-by-Step Autonomous Trace Terminal */}
           <div className="rounded-2xl border border-border bg-surface overflow-hidden shadow-tactile space-y-0">
             <div className="p-3.5 border-b border-border bg-surface-subtle flex items-center justify-between">
               <div className="flex items-center gap-2 font-mono text-xs font-bold text-foreground">

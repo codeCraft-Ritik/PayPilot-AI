@@ -23,7 +23,7 @@ export class AutonomousAgentService {
     const startTime = Date.now();
     const traces: AgentStepTrace[] = [];
 
-    // --- STEP 1: Goal Decomposition ---
+    // Phase 1: Goal decomposition
     const step1Start = Date.now();
     const goal = request.goal;
     const extractedBudget = this.extractBudget(goal, request.targetBudgetUsd);
@@ -46,7 +46,7 @@ export class AutonomousAgentService {
       },
     });
 
-    // --- STEP 2: Channel3 Real Product Graph Search ---
+    // Phase 2: Channel3 product graph query
     const step2Start = Date.now();
     const candidatePool: Product[] = [];
     let isLiveChannel3 = false;
@@ -90,7 +90,7 @@ export class AutonomousAgentService {
       },
     });
 
-    // --- STEP 3: Spec Evaluation & Scoring ---
+    // Phase 3: Deterministic specification evaluation
     const step3Start = Date.now();
     const scoredCandidates = uniqueCandidates.map((product) => {
       let score = 70;
@@ -120,7 +120,7 @@ export class AutonomousAgentService {
       },
     });
 
-    // --- STEP 4: Budget Knapsack Optimization ---
+    // Phase 4: Budget knapsack optimization
     const step4Start = Date.now();
     const selectedProducts = this.optimizeBundle(
       subQueries,
@@ -152,7 +152,7 @@ export class AutonomousAgentService {
       },
     });
 
-    // --- STEP 5: Server Cart Assembly ---
+    // Phase 5: Server-side cart assembly
     const step5Start = Date.now();
     const cartItems = selectedProducts.map((p) => ({
       productId: p.id,
@@ -176,7 +176,7 @@ export class AutonomousAgentService {
       },
     });
 
-    // --- STEP 6: PayPal Sandbox Preparation ---
+    // Phase 6: PayPal Sandbox order preparation
     const step6Start = Date.now();
     let paypalPreparedOrder: any = null;
 
