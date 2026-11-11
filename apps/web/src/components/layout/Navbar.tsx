@@ -10,6 +10,7 @@ import {
   Menu,
   X,
   Zap,
+  Layers,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext.js';
 
@@ -51,10 +52,15 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { to: '/workspace', label: 'AI Copilot', icon: Sparkles },
     {
+      to: '/procurement',
+      label: 'BuyWard',
+      icon: Layers,
+      badgeText: 'New',
+    },
+    {
       to: '/workspace?mode=agent',
       label: 'Agent Pilot',
       icon: Zap,
-      badgeText: '5K TRACK',
     },
     { to: '/catalogue', label: 'Catalogue', icon: Radio },
     {
@@ -67,64 +73,43 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="fixed top-2 sm:top-3.5 inset-x-0 mx-auto w-[95%] max-w-6xl z-50 transition-all duration-300">
+    <header className="fixed top-2.5 sm:top-3 inset-x-0 mx-auto w-[95%] max-w-6xl z-50 transition-colors duration-200">
       <div
-        className={`relative rounded-full transition-all duration-300 ${
+        className={`relative rounded-full transition-colors duration-200 ${
           isScrolled
-            ? 'glass-island-scrolled shadow-lg'
-            : 'glass-island shadow-sm'
-        } px-3 sm:px-5 py-2 flex items-center justify-between gap-2`}
+            ? 'glass-island-scrolled shadow-md'
+            : 'glass-island shadow-xs'
+        } px-3.5 sm:px-4 py-2 flex items-center justify-between gap-3`}
       >
-        <div className="absolute bottom-0 inset-x-8 h-[2px] overflow-hidden rounded-full pointer-events-none opacity-80">
+        {/* Subtle scroll progress line at bottom of bar */}
+        <div className="absolute bottom-0 inset-x-6 h-[2px] overflow-hidden rounded-full pointer-events-none opacity-80">
           <div
-            className="h-full bg-gradient-to-r from-accent via-indigo-500 to-accent transition-all duration-150 ease-out scroll-progress-line-css"
+            className="h-full bg-accent transition-transform duration-150 ease-out origin-left scroll-progress-line-css"
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Left Branding */}
+        <div className="flex items-center gap-2.5 shrink-0">
           <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <div className="relative w-8 h-8 rounded-full bg-foreground flex items-center justify-center text-white font-mono font-bold text-xs shadow-xs group-hover:scale-105 transition-transform duration-200">
-              <span className="relative z-10">P</span>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="w-8 h-8 rounded-full bg-foreground flex items-center justify-center text-white font-mono font-bold text-xs shadow-xs group-hover:scale-105 transition-transform duration-150">
+              <span>P</span>
             </div>
 
             <div className="flex items-center gap-1.5 leading-none">
-              <span className="font-bold tracking-tight text-foreground text-sm sm:text-base group-hover:text-accent transition-colors">
+              <span className="font-bold tracking-tight text-foreground text-sm sm:text-base group-hover:text-accent transition-colors duration-150">
                 PayPilot
               </span>
-              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/25 tracking-tight shrink-0">
+              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 shrink-0">
                 AI
               </span>
             </div>
           </Link>
-
-          <div
-            className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-subtle/90 border border-border/80 text-[10px] font-mono text-foreground-muted cursor-default relative group/status shrink-0 transition-colors hover:border-accent/40"
-            title="PayPal Sandbox v2 & Channel3 100M+ Graph Connected"
-          >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
-            </span>
-            <span className="font-semibold text-foreground tracking-tight whitespace-nowrap">SANDBOX</span>
-            <span className="text-foreground-muted/40">•</span>
-            <span className="text-success font-semibold tracking-tight whitespace-nowrap">100M+ GRAPH</span>
-
-            <div className="flex items-center gap-0.5 h-2.5 ml-0.5 pl-1.5 border-l border-border/80 shrink-0">
-              <span className="w-0.5 bg-accent rounded-full animate-soundwave-1" />
-              <span className="w-0.5 bg-accent rounded-full animate-soundwave-2" />
-              <span className="w-0.5 bg-accent rounded-full animate-soundwave-3" />
-            </div>
-
-            <div className="absolute top-full left-0 mt-2 px-3 py-1.5 rounded-lg bg-foreground text-surface text-[11px] font-sans font-medium whitespace-nowrap shadow-xl opacity-0 pointer-events-none group-hover/status:opacity-100 transition-opacity z-50">
-              PayPal Sandbox v2 • Gemini 2.5 Flash • Channel3 100M+ Catalog
-            </div>
-          </div>
         </div>
 
+        {/* Center Desktop Navigation Pill */}
         <nav
-          className="hidden md:flex items-center gap-1 p-1 rounded-full bg-surface-subtle/70 border border-border/50 shrink-0"
+          className="hidden lg:flex items-center gap-0.5 p-1 rounded-full bg-surface-subtle/80 border border-border/70 shrink-0 mx-auto"
           onMouseLeave={() => setHoveredTab(null)}
         >
           {navLinks.map((link) => {
@@ -139,7 +124,7 @@ export const Navbar: React.FC = () => {
                 key={link.to}
                 to={link.to}
                 onMouseEnter={() => setHoveredTab(link.to)}
-                className={`relative px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
+                className={`relative px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-150 flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                   isActive
                     ? 'text-accent font-semibold'
                     : 'text-foreground-muted hover:text-foreground'
@@ -165,16 +150,12 @@ export const Navbar: React.FC = () => {
                   <Icon className="w-3.5 h-3.5 shrink-0" />
                   <span className="shrink-0">{link.label}</span>
                   {link.badge && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="px-1.5 py-0.2 rounded-full bg-accent text-white text-[9px] font-mono font-bold shrink-0"
-                    >
+                    <span className="px-1.5 py-0.2 rounded-full bg-accent text-white text-[9.5px] font-mono font-medium shrink-0">
                       {link.badge}
-                    </motion.span>
+                    </span>
                   )}
                   {link.badgeText && (
-                    <span className="px-1.5 py-0.5 rounded-full bg-accent/12 text-accent text-[8.5px] font-mono font-bold border border-accent/25 tracking-wide uppercase shrink-0">
+                    <span className="px-1.5 py-0.5 rounded-full bg-accent/10 text-accent text-[9.5px] font-medium leading-none shrink-0">
                       {link.badgeText}
                     </span>
                   )}
@@ -184,64 +165,70 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <div className="flex items-center p-0.5 rounded-full border border-border/80 bg-surface-subtle/80 text-[11px] font-mono shadow-xs shrink-0">
+        {/* Right Sandbox, Currency & Cart */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Subtle Live Sandbox status */}
+          <div
+            className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-subtle border border-border/70 text-[11px] text-foreground-muted shrink-0"
+            title="Connected to PayPal Sandbox REST v2 & Channel3 catalog"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+            <span className="font-medium text-foreground">Sandbox</span>
+          </div>
+
+          {/* Currency Toggle */}
+          <div className="flex items-center p-0.5 rounded-full border border-border/80 bg-surface-subtle text-[11px] font-sans shadow-xs shrink-0">
             <button
               onClick={() => setCurrency('USD')}
-              className={`px-2.5 py-1 rounded-full transition-all duration-150 shrink-0 ${
+              className={`px-2 py-1 rounded-full transition-colors duration-150 shrink-0 ${
                 currency === 'USD'
-                  ? 'bg-surface text-foreground font-bold shadow-xs border border-border/50'
+                  ? 'bg-surface text-foreground font-semibold shadow-xs border border-border/50'
                   : 'text-foreground-muted hover:text-foreground'
               }`}
               title="Browse in USD"
             >
-              $ USD
+              USD
             </button>
             <button
               onClick={() => setCurrency('INR')}
-              className={`px-2.5 py-1 rounded-full transition-all duration-150 shrink-0 ${
+              className={`px-2 py-1 rounded-full transition-colors duration-150 shrink-0 ${
                 currency === 'INR'
-                  ? 'bg-surface text-foreground font-bold shadow-xs border border-border/50'
+                  ? 'bg-surface text-foreground font-semibold shadow-xs border border-border/50'
                   : 'text-foreground-muted hover:text-foreground'
               }`}
               title="Display INR conversion (1 USD ≈ ₹83.5)"
             >
-              ₹ INR
+              INR
             </button>
           </div>
 
+          {/* Cart Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative px-3 py-1.5 rounded-full border border-border/80 bg-surface hover:bg-surface-subtle text-foreground text-xs font-semibold flex items-center gap-2 transition-all shadow-xs active:scale-95 shrink-0"
+            className="relative px-3 py-1.5 rounded-full border border-border/80 bg-surface hover:bg-surface-subtle text-foreground text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 shadow-xs shrink-0"
             aria-label="Open Shopping Cart"
           >
-            <ShoppingBag className="w-4 h-4 text-foreground-muted shrink-0" />
-            <span className="hidden sm:inline font-mono text-xs">Cart</span>
+            <ShoppingBag className="w-3.5 h-3.5 text-foreground-muted shrink-0" />
+            <span className="hidden sm:inline text-xs">Cart</span>
             {cartCount > 0 && (
-              <motion.span
-                key={cartCount}
-                initial={{ scale: 0.5, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                className="w-5 h-5 rounded-full bg-accent text-white text-[10px] font-mono font-bold flex items-center justify-center shadow-xs shrink-0"
-              >
+              <span className="w-4.5 h-4.5 rounded-full bg-accent text-white text-[10px] font-mono font-medium flex items-center justify-center shadow-xs shrink-0">
                 {cartCount}
-              </motion.span>
+              </span>
             )}
           </button>
 
           <Link
             to="/workspace?mode=agent"
-            className="md:hidden p-2 rounded-full bg-accent text-white shadow-xs active:scale-90 transition-transform shrink-0"
+            className="lg:hidden p-2 rounded-full bg-accent text-white shadow-xs transition-transform duration-150 shrink-0"
             aria-label="Open Agent Pilot"
-            title="Open Agent Pilot ($5,000 Track)"
+            title="Open Agent Pilot"
           >
             <Zap className="w-4 h-4" />
           </Link>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-full border border-border bg-surface text-foreground-muted hover:text-foreground transition-colors shrink-0"
+            className="lg:hidden p-1.5 rounded-full border border-border bg-surface text-foreground-muted hover:text-foreground transition-colors duration-150 shrink-0"
             aria-label="Toggle Navigation Menu"
           >
             {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -249,22 +236,23 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile & Tablet Dropdown Navigation Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="md:hidden mt-2 rounded-2xl glass-island-scrolled p-4 border border-border shadow-2xl space-y-3"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="lg:hidden mt-2 rounded-2xl glass-island-scrolled p-4 border border-border shadow-xl space-y-3"
           >
             <div className="flex items-center justify-between pb-2 border-b border-border/60">
-              <span className="text-[11px] font-mono text-foreground-muted uppercase tracking-wider">
-                NAVIGATION
+              <span className="text-xs text-foreground-muted font-medium">
+                Navigation
               </span>
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-success">
-                <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-                <span>PAYPAL SANDBOX • CHANNEL3</span>
+              <div className="flex items-center gap-1.5 text-xs text-emerald-600">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>PayPal Sandbox Active</span>
               </div>
             </div>
 
@@ -280,10 +268,10 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={link.to}
                     to={link.to}
-                    className={`flex items-center justify-between p-2.5 rounded-xl text-xs font-medium transition-colors ${
+                    className={`flex items-center justify-between p-2.5 rounded-xl text-xs font-medium transition-colors duration-150 ${
                       isActive
                         ? 'bg-accent text-white font-semibold shadow-xs'
-                        : 'bg-surface-subtle/80 text-foreground hover:bg-surface'
+                        : 'bg-surface-subtle text-foreground hover:bg-surface'
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -298,7 +286,7 @@ export const Navbar: React.FC = () => {
                         </span>
                       )}
                       {link.badgeText && (
-                        <span className="px-1.5 py-0.5 rounded-full bg-accent/20 text-accent text-[9px] font-mono font-bold">
+                        <span className="px-1.5 py-0.5 rounded-full bg-accent/20 text-accent text-[9px] font-medium">
                           {link.badgeText}
                         </span>
                       )}
@@ -308,10 +296,10 @@ export const Navbar: React.FC = () => {
               })}
             </div>
 
-            <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs text-foreground-muted font-mono">
-              <span className="flex items-center gap-1 text-success">
+            <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs text-foreground-muted">
+              <span className="flex items-center gap-1 text-emerald-600">
                 <span>●</span>
-                <span>Zero Price Hallucination</span>
+                <span>Verified product catalog</span>
               </span>
               <span>PayPal AI Hackathon</span>
             </div>

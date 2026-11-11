@@ -8,6 +8,7 @@ import { CataloguePage } from './features/catalogue/CataloguePage.js';
 import { ComparisonView } from './features/comparison/ComparisonView.js';
 import { OrderConfirmationPage } from './features/orders/OrderConfirmationPage.js';
 import { InsightsPage } from './features/insights/InsightsPage.js';
+import { ProcurementWorkbenchPage } from './features/procurement/ProcurementWorkbenchPage.js';
 import { CartDrawer } from './features/cart/CartDrawer.js';
 import { CheckoutModal } from './features/checkout/CheckoutModal.js';
 import { ProductDetailsModal } from './features/details/ProductDetailsModal.js';
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
           <Route path="/compare" element={<ComparisonView />} />
           <Route path="/order/:orderId" element={<OrderConfirmationPage />} />
           <Route path="/insights" element={<InsightsPage />} />
+          <Route path="/procurement" element={<ProcurementWorkbenchPage />} />
         </Routes>
       </main>
 

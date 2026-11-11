@@ -41,6 +41,7 @@ export const ShoppingWorkspace: React.FC = () => {
     comparedProductIds,
     addToCart,
     clearCart,
+    setIsCartOpen,
     setIsCheckoutOpen,
     formatPrice,
   } = useApp();
@@ -126,6 +127,7 @@ export const ShoppingWorkspace: React.FC = () => {
   const handleRunAgent = async (goal: string) => {
     setIsAgentLoading(true);
     setErrorMessage(null);
+    setAutonomousPlan(null);
     try {
       const plan = await api.runAutonomousAgent({
         goal,
@@ -146,8 +148,9 @@ export const ShoppingWorkspace: React.FC = () => {
   const handleApproveAgentPlan = (plan: AutonomousAgentPlan) => {
     clearCart();
     plan.selectedProducts.forEach((p) => {
-      addToCart(p, 1);
+      addToCart(p, 1, false);
     });
+    setIsCartOpen(false);
     setIsCheckoutOpen(true);
   };
 
@@ -163,12 +166,12 @@ export const ShoppingWorkspace: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight text-foreground">AI Shopping Workspace</h1>
-            <span className="px-2 py-0.5 rounded bg-accent-subtle text-accent border border-accent-border text-[11px] font-mono font-semibold">
-              {workspaceMode === 'autonomous_agent' ? 'AGENTIC COMMERCE ($5,000)' : 'SPLIT INTELLIGENCE'}
+            <span className="px-2 py-0.5 rounded bg-accent/10 text-accent border border-accent/20 text-xs font-medium">
+              {workspaceMode === 'autonomous_agent' ? 'Agentic commerce ($5,000)' : 'Split intelligence'}
             </span>
-            <span className="px-2 py-0.5 rounded bg-success/10 text-success border border-success/20 text-[10px] font-mono font-semibold hidden md:inline-flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              <span>CHANNEL3 100M+ GRAPH</span>
+            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 text-xs font-medium hidden md:inline-flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Channel3 100M+ graph</span>
             </span>
           </div>
           <p className="text-xs text-foreground-muted mt-0.5">
@@ -181,13 +184,13 @@ export const ShoppingWorkspace: React.FC = () => {
         {/* Operating Mode Selector + Comparison Action */}
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* Mode Switcher Pill */}
-          <div className="flex items-center p-0.5 rounded-xl border border-border bg-surface-subtle text-xs font-mono shadow-xs">
+          <div className="flex items-center p-0.5 rounded-xl border border-border bg-surface-subtle text-xs shadow-xs">
             <button
               type="button"
               onClick={() => switchMode('copilot')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-colors duration-150 flex items-center gap-1.5 ${
                 workspaceMode === 'copilot'
-                  ? 'bg-surface text-foreground font-bold shadow-xs'
+                  ? 'bg-surface text-foreground font-semibold shadow-xs'
                   : 'text-foreground-muted hover:text-foreground'
               }`}
             >
@@ -197,15 +200,15 @@ export const ShoppingWorkspace: React.FC = () => {
             <button
               type="button"
               onClick={() => switchMode('autonomous_agent')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg font-medium transition-colors duration-150 flex items-center gap-1.5 ${
                 workspaceMode === 'autonomous_agent'
-                  ? 'bg-accent text-white font-bold shadow-xs'
+                  ? 'bg-accent text-white font-semibold shadow-xs'
                   : 'text-foreground-muted hover:text-foreground'
               }`}
             >
               <Zap className="w-3.5 h-3.5" />
               <span>Autonomous Agent</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[9px] font-bold">
+              <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[9px] font-medium">
                 $5k Track
               </span>
             </button>
@@ -262,7 +265,7 @@ export const ShoppingWorkspace: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5 text-left pt-2">
-                  <span className="text-[10px] font-mono uppercase text-foreground-muted block">
+                  <span className="text-xs font-medium text-foreground-muted block">
                     Quick suggestions:
                   </span>
                   {SAMPLE_QUERIES.map((sq, i) => (
@@ -303,9 +306,9 @@ export const ShoppingWorkspace: React.FC = () => {
                     {/* Clarifying Questions (if returned) */}
                     {msg.responsePayload?.clarifyingQuestions && (
                       <div className="pt-2 mt-2 border-t border-border/80 space-y-1.5">
-                        <span className="text-[10px] font-mono font-semibold uppercase text-accent flex items-center gap-1">
+                        <span className="text-xs font-semibold text-accent flex items-center gap-1">
                           <HelpCircle className="w-3 h-3" />
-                          <span>Helpful Follow-up:</span>
+                          <span>Helpful follow-up:</span>
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {msg.responsePayload.clarifyingQuestions.map((q, idx) => (
@@ -397,9 +400,9 @@ export const ShoppingWorkspace: React.FC = () => {
             <>
               <div className="rounded-2xl border border-border/80 bg-surface/90 backdrop-blur-sm p-5 shadow-tactile-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-semibold uppercase text-accent tracking-wider flex items-center gap-1.5">
+                  <span className="text-xs font-semibold text-accent flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>EXTRACTED SHOPPING INTENT</span>
+                    <span>Extracted shopping intent</span>
                   </span>
                   <span className="text-[11px] font-mono text-foreground-muted">
                     {activeAssistantResponse.processingTimeMs}ms latency

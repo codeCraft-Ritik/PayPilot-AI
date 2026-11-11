@@ -39,8 +39,8 @@ export const InsightsPage: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-3">
         <Loader2 className="w-8 h-8 animate-spin text-accent mx-auto" />
-        <p className="text-xs font-mono text-foreground-muted">
-          Computing transaction analytics from verified ledger...
+        <p className="text-xs text-foreground-muted">
+          Computing transaction analytics from verified ledger…
         </p>
       </div>
     );
@@ -55,8 +55,8 @@ export const InsightsPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight text-foreground">Shopping Insights & Analytics</h1>
-            <span className="px-2 py-0.5 rounded bg-surface-subtle text-foreground-muted border border-border text-[11px] font-mono">
-              VERIFIED SANDBOX ACTIVITY
+            <span className="px-2 py-0.5 rounded bg-surface-subtle text-foreground-muted border border-border text-xs font-medium">
+              Verified sandbox activity
             </span>
           </div>
           <p className="text-xs text-foreground-muted mt-0.5">
@@ -76,58 +76,58 @@ export const InsightsPage: React.FC = () => {
       {/* Top 4 KPI Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1 */}
-        <div className="p-4 rounded-xl border border-border bg-surface shadow-tactile space-y-2">
-          <div className="flex items-center justify-between text-xs text-foreground-muted font-mono">
-            <span>COMPLETED PURCHASES</span>
+        <div className="p-4 rounded-xl border border-border bg-surface shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-foreground-muted font-medium">
+            <span>Completed purchases</span>
             <ShoppingBag className="w-4 h-4 text-accent" />
           </div>
-          <div className="text-2xl font-bold font-mono text-foreground">
+          <div className="text-2xl font-bold font-mono text-foreground tabular-nums">
             {insights?.completedOrdersCount ?? 0}
           </div>
-          <p className="text-[11px] font-mono text-foreground-muted">
+          <p className="text-xs text-foreground-muted">
             {insights?.totalItemsPurchased ?? 0} items purchased in total
           </p>
         </div>
 
         {/* Metric 2 */}
-        <div className="p-4 rounded-xl border border-border bg-surface shadow-tactile space-y-2">
-          <div className="flex items-center justify-between text-xs text-foreground-muted font-mono">
-            <span>VERIFIED SANDBOX SPEND</span>
-            <CreditCard className="w-4 h-4 text-success" />
+        <div className="p-4 rounded-xl border border-border bg-surface shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-foreground-muted font-medium">
+            <span>Verified sandbox spend</span>
+            <CreditCard className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="text-2xl font-bold font-mono text-foreground tabular-nums">
             {formatPrice(insights?.totalSandboxSpendUsd ?? 0)}
           </div>
-          <p className="text-[11px] font-mono text-foreground-muted">
+          <p className="text-xs text-foreground-muted">
             100% test currency (zero live impact)
           </p>
         </div>
 
         {/* Metric 3 */}
-        <div className="p-4 rounded-xl border border-border bg-surface shadow-tactile space-y-2">
-          <div className="flex items-center justify-between text-xs text-foreground-muted font-mono">
-            <span>AVERAGE ORDER VALUE</span>
-            <TrendingUp className="w-4 h-4 text-warning" />
+        <div className="p-4 rounded-xl border border-border bg-surface shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-foreground-muted font-medium">
+            <span>Average order value</span>
+            <TrendingUp className="w-4 h-4 text-amber-600" />
           </div>
           <div className="text-2xl font-bold font-mono text-foreground tabular-nums">
             {formatPrice(insights?.averageOrderValueUsd ?? 0)}
           </div>
-          <p className="text-[11px] font-mono text-foreground-muted">
+          <p className="text-xs text-foreground-muted">
             Based on completed checkouts
           </p>
         </div>
 
         {/* Metric 4 */}
-        <div className="p-4 rounded-xl border border-border bg-surface shadow-tactile space-y-2">
-          <div className="flex items-center justify-between text-xs text-foreground-muted font-mono">
-            <span>GATEWAY STATUS</span>
+        <div className="p-4 rounded-xl border border-border bg-surface shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-foreground-muted font-medium">
+            <span>Gateway status</span>
             <ShieldCheck className="w-4 h-4 text-accent" />
           </div>
-          <div className="text-sm font-bold font-mono text-success flex items-center gap-1.5 pt-1">
-            <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-            <span>PAYPAL SANDBOX ACTIVE</span>
+          <div className="text-sm font-semibold text-emerald-600 flex items-center gap-1.5 pt-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>PayPal sandbox active</span>
           </div>
-          <p className="text-[11px] font-mono text-foreground-muted">
+          <p className="text-xs text-foreground-muted">
             Idempotent server-verified API
           </p>
         </div>
@@ -165,7 +165,7 @@ export const InsightsPage: React.FC = () => {
                     </div>
                     <div className="w-full h-2 rounded-full bg-surface-subtle overflow-hidden border border-border/80">
                       <div
-                        className="h-full bg-accent rounded-full transition-all duration-500"
+                        className="h-full bg-accent rounded-full transition-[width] duration-300 ease-out"
                         style={{ width: `${Math.max(4, pct)}%` }}
                       />
                     </div>

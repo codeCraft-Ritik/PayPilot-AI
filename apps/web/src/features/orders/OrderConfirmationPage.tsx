@@ -45,8 +45,8 @@ export const OrderConfirmationPage: React.FC = () => {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center space-y-3">
         <Loader2 className="w-8 h-8 animate-spin text-accent mx-auto" />
-        <p className="text-xs font-mono text-foreground-muted">
-          Retrieving server-verified transaction record...
+        <p className="text-xs text-foreground-muted">
+          Retrieving server-verified transaction record…
         </p>
       </div>
     );
@@ -89,8 +89,8 @@ export const OrderConfirmationPage: React.FC = () => {
         {/* Receipt Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border text-xs">
           <div>
-            <span className="font-mono text-[10px] uppercase text-foreground-muted block">
-              Order Reference
+            <span className="text-xs text-foreground-muted block font-medium">
+              Order reference
             </span>
             <span className="font-mono font-bold text-sm text-foreground">
               {order.orderNumber}
@@ -98,35 +98,35 @@ export const OrderConfirmationPage: React.FC = () => {
           </div>
 
           <div className="sm:text-right">
-            <span className="font-mono text-[10px] uppercase text-foreground-muted block">
-              Payment Status
+            <span className="text-xs text-foreground-muted block font-medium">
+              Payment status
             </span>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-success-subtle border border-success-border text-success font-mono font-semibold text-[11px]">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 font-medium text-xs">
               <ShieldCheck className="w-3 h-3" />
-              <span>{order.status} (CAPTURED)</span>
+              <span>{order.status} (Captured)</span>
             </span>
           </div>
         </div>
 
         {/* Transaction Metadata Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3 rounded-lg border border-border bg-surface-subtle text-xs font-mono">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3 rounded-lg border border-border bg-surface-subtle text-xs">
           <div>
-            <span className="text-[10px] text-foreground-muted block">Transaction Timestamp</span>
-            <span className="text-foreground font-medium text-[11px]">
+            <span className="text-[11px] text-foreground-muted block">Transaction timestamp</span>
+            <span className="text-foreground font-medium text-xs">
               {new Date(order.createdAt).toLocaleDateString()} {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] text-foreground-muted block">PayPal Capture ID</span>
-            <span className="text-foreground font-semibold text-[11px] truncate block" title={order.paypalCaptureId}>
+            <span className="text-[11px] text-foreground-muted block">PayPal capture ID</span>
+            <span className="text-foreground font-mono font-medium text-xs truncate block" title={order.paypalCaptureId}>
               {order.paypalCaptureId || 'SIMULATED-CAP'}
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] text-foreground-muted block">Gateway Account</span>
-            <span className="text-foreground text-[11px] truncate block">
+            <span className="text-[11px] text-foreground-muted block">Gateway account</span>
+            <span className="text-foreground text-xs truncate block">
               {order.payerEmail || 'sandbox-buyer@paypal'}
             </span>
           </div>
@@ -134,8 +134,8 @@ export const OrderConfirmationPage: React.FC = () => {
 
         {/* Itemized Breakdown Table */}
         <div className="space-y-3">
-          <h2 className="text-xs font-mono font-semibold uppercase text-foreground tracking-wider">
-            Purchased Products
+          <h2 className="text-xs font-semibold text-foreground">
+            Purchased products
           </h2>
 
           <div className="divide-y divide-border border border-border rounded-lg overflow-hidden">

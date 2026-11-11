@@ -1,30 +1,27 @@
 import React from 'react';
 import {
-  Product,
-  ProductRecommendationItem,
-} from '@paypilot/shared';
-import {
   Star,
+  Check,
   Plus,
   Scale,
   Sparkles,
   Info,
-  Check,
 } from 'lucide-react';
+import { Product, ProductRecommendationItem } from '@paypilot/shared';
 import { useApp } from '../../context/AppContext.js';
 
 interface ProductCardProps {
   product: Product;
-  recommendation?: ProductRecommendationItem;
+  recommendation?: ProductRecommendationItem | any;
   featured?: boolean;
-  layout?: 'standard' | 'horizontal';
+  layout?: 'vertical' | 'horizontal' | 'standard';
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   recommendation,
   featured = false,
-  layout = 'standard',
+  layout = 'vertical',
 }) => {
   const {
     formatPrice,
@@ -42,10 +39,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <div
       className={`group relative flex h-full ${
         layout === 'horizontal' ? 'flex-col sm:flex-row' : 'flex-col'
-      } rounded-2xl border bg-surface transition-all duration-300 overflow-hidden hover:-translate-y-1 ${
+      } rounded-2xl border bg-surface transition-colors duration-150 overflow-hidden ${
         featured
-          ? 'border-accent shadow-tactile-md ring-1 ring-accent/30 shadow-glow-subtle'
-          : 'border-border/80 hover:border-foreground-muted/40 shadow-tactile hover:shadow-xl'
+          ? 'border-accent shadow-sm'
+          : 'border-border/80 hover:border-foreground-muted/40 shadow-xs hover:shadow-sm'
       }`}
     >
       {/* Top / Left Media Container */}
@@ -61,39 +58,39 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           src={product.imageUrl}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover object-center"
         />
 
         {/* Top Badges */}
         <div className="absolute top-2.5 left-2.5 flex flex-wrap items-center gap-1.5">
-          <span className="px-2.5 py-0.5 rounded-full bg-surface/90 backdrop-blur-md text-[10px] font-mono font-semibold uppercase tracking-wider text-foreground border border-border/80 shadow-xs">
+          <span className="px-2.5 py-0.5 rounded-full bg-surface/90 backdrop-blur-md text-[11px] font-medium text-foreground border border-border/80 shadow-xs">
             {product.brand}
           </span>
           {featured && (
-            <span className="px-2.5 py-0.5 rounded-full bg-accent text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm">
-              TOP PICK
+            <span className="px-2.5 py-0.5 rounded-full bg-accent text-white text-[11px] font-medium shadow-xs">
+              Top pick
             </span>
           )}
           {product.isSampleData && (
-            <span className="px-2 py-0.5 rounded-full bg-surface/85 backdrop-blur-xs text-[9px] font-mono text-foreground-muted border border-border/70">
-              SAMPLE SPEC
+            <span className="px-2 py-0.5 rounded-full bg-surface/90 text-[10px] text-foreground-muted border border-border/70">
+              Sample spec
             </span>
           )}
         </div>
 
-        {/* AI Match Score Badge (if recommendation is present) */}
+        {/* AI Match Score Badge */}
         {recommendation && (
-          <div className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent text-white font-mono text-xs font-bold shadow-md">
+          <div className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent text-white text-xs font-medium shadow-xs">
             <Sparkles className="w-3 h-3" />
-            <span>{recommendation.matchScore}% MATCH</span>
+            <span>{recommendation.matchScore}% match</span>
           </div>
         )}
 
         {/* Quick View Overlay on Hover */}
-        <div className="absolute inset-0 bg-foreground/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none backdrop-blur-[1px]">
-          <span className="px-3.5 py-1.5 rounded-full bg-surface/95 text-foreground text-xs font-medium shadow-md flex items-center gap-1.5 transform scale-90 group-hover:scale-100 transition-transform">
+        <div className="absolute inset-0 bg-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center pointer-events-none">
+          <span className="px-3.5 py-1.5 rounded-full bg-surface text-foreground text-xs font-medium shadow-sm flex items-center gap-1.5">
             <Info className="w-3.5 h-3.5 text-accent" />
-            <span>View Full Specs</span>
+            <span>View full specs</span>
           </span>
         </div>
       </div>
@@ -103,17 +100,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Title, Category & Rating */}
         <div>
           <div className="flex items-center justify-between text-xs text-foreground-muted mb-1">
-            <span className="capitalize font-mono text-[11px]">{product.category.replace('-', ' ')}</span>
-            <div className="flex items-center gap-1 text-foreground font-mono">
-              <Star className="w-3.5 h-3.5 fill-warning text-warning" />
-              <span className="font-semibold">{product.rating}</span>
+            <span className="capitalize text-xs font-medium">{product.category.replace('-', ' ')}</span>
+            <div className="flex items-center gap-1 text-foreground">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+              <span className="font-semibold font-mono text-xs">{product.rating}</span>
               <span className="text-foreground-muted">({product.reviewCount})</span>
             </div>
           </div>
 
           <h3
             onClick={() => setSelectedProductForDetail(product)}
-            className="font-medium text-foreground text-sm line-clamp-2 hover:text-accent cursor-pointer transition-colors leading-snug"
+            className="font-medium text-foreground text-sm line-clamp-2 hover:text-accent cursor-pointer transition-colors duration-150 leading-snug"
             title={product.name}
           >
             {product.name}
@@ -122,14 +119,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Grounded AI Rationale Snippet (if available) */}
         {recommendation ? (
-          <div className="p-2.5 rounded bg-surface-subtle border border-border text-[11px] space-y-1.5">
+          <div className="p-2.5 rounded-lg bg-surface-subtle border border-border text-xs space-y-1.5">
             <div className="flex items-start gap-1.5 text-foreground leading-relaxed">
               <Sparkles className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />
               <span>{recommendation.whyItFits}</span>
             </div>
             {recommendation.tradeOffs && (
-              <div className="text-[10px] text-foreground-muted pl-5 border-t border-border/60 pt-1">
-                <span className="font-semibold text-warning">Compromise:</span> {recommendation.tradeOffs}
+              <div className="text-[11px] text-foreground-muted pl-5 border-t border-border/60 pt-1">
+                <span className="font-semibold text-amber-700">Compromise:</span> {recommendation.tradeOffs}
               </div>
             )}
           </div>
@@ -146,8 +143,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <span className="text-base font-bold font-mono text-foreground tracking-tight tabular-nums">
               {formatPrice(product.price)}
             </span>
-            <span className="text-[10px] font-mono text-foreground-muted">
-              Authoritative Catalogue Price
+            <span className="text-[10px] text-foreground-muted">
+              Authoritative catalog price
             </span>
           </div>
 
@@ -156,7 +153,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {/* Compare Toggle */}
             <button
               onClick={() => toggleCompare(product.id)}
-              className={`p-2 rounded-xl border transition-all active:scale-90 ${
+              className={`p-2 rounded-xl border transition-colors duration-150 active:scale-95 ${
                 isCompared
                   ? 'bg-accent text-white border-accent shadow-xs'
                   : 'border-border/80 bg-surface hover:bg-surface-subtle text-foreground-muted hover:text-foreground'
@@ -170,12 +167,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {/* Add to Cart */}
             <button
               onClick={() => addToCart(product)}
-              className="px-3.5 py-2 rounded-xl bg-foreground text-surface hover:bg-accent transition-all duration-200 text-xs font-semibold flex items-center gap-1.5 active:scale-95 shadow-tactile hover:shadow-md"
+              className="px-3.5 py-2 rounded-xl bg-foreground text-surface hover:bg-accent transition-colors duration-150 text-xs font-semibold flex items-center gap-1.5 active:scale-95 shadow-xs"
               aria-label="Add to cart"
             >
               {isInCart ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-success" />
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Added</span>
                 </>
               ) : (

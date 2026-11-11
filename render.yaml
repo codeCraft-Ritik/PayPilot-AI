@@ -49,3 +49,18 @@ services:
           type: web
           name: paypilot-api
           property: host
+
+  # 3. Autonomous Price Sniper Background Cron Job (Module 6 Daemon)
+  - type: cron
+    name: buyward-price-sniper-cron
+    env: node
+    plan: free
+    schedule: "*/15 * * * *"
+    buildCommand: npm install && npm run build --workspace=@paypilot/shared && npm run build --workspace=@paypilot/api
+    startCommand: node -e "const base = (process.env.BACKEND_INTERNAL_URL ? ('https://' + process.env.BACKEND_INTERNAL_URL) : 'http://localhost:5000'); fetch(base + '/api/sniper/check-all').then(r => r.json()).then(d => console.log('[Sniper Daemon Cron] Triggered:', d)).catch(e => console.error('[Sniper Cron Error]', e.message));"
+    envVars:
+      - key: BACKEND_INTERNAL_URL
+        fromService:
+          type: web
+          name: paypilot-api
+          property: host

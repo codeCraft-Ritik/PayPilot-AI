@@ -233,4 +233,123 @@ describe('PayPilot AI API & Business Logic', () => {
       expect(plan.preStagedCartItems.length).toBeGreaterThanOrEqual(2);
     });
   });
+
+  describe('BuyWard: Autonomous Procurement & Commerce Matrix', () => {
+    it('decomposes complex intent with 5% tax/shipping buffer', async () => {
+      const res = await request(app)
+        .post('/api/intent/parse')
+        .send({
+          prompt: 'Equip a two-person podcasting starter kit under $280 total with USB-C mics, closed-back headphones, and boom arms',
+        });
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      const intent = res.body.intent;
+      expect(intent.hardBudgetMax).toBe(280);
+      expect(intent.allocatedBufferUsd).toBeCloseTo(14.0, 1); // 5% of 280
+      expect(intent.requiredCategories.length).toBeGreaterThanOrEqual(3);
+      const totalSubBudgets = intent.requiredCategories.reduce(
+        (acc: number, c: any) => acc + c.allocatedSubBudgetUsd,
+        0
+      );
+      expect(totalSubBudgets).toBeLessThanOrEqual(intent.netProcurementBudgetUsd + 1);
+    });
+
+    it('refines mission constraints conversatively without restarting', async () => {
+      const initialRes = await request(app)
+        .post('/api/intent/parse')
+        .send({ prompt: 'Equip an ergonomic developer workspace under $350 total' });
+      const initialIntent = initialRes.body.intent;
+
+      const refinedRes = await request(app)
+        .post('/api/intent/refine')
+        .send({
+          currentState: initialIntent,
+          refinementPrompt: 'Lower the hard budget to $300 and prioritize fastest delivery',
+        });
+      expect(refinedRes.status).toBe(200);
+      expect(refinedRes.body.success).toBe(true);
+      expect(refinedRes.body.intent.hardBudgetMax).toBe(300);
+      expect(refinedRes.body.intent.deliveryPriority).toBe('fastest');
+    });
+
+    it('queries Channel3 multi-merchant candidate SKUs with arbitrage savings', async () => {
+      const res = await request(app)
+        .post('/api/discovery/search')
+        .send({ categoryQuery: 'Microphone', limit: 4 });
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.skus.length).toBeGreaterThan(0);
+      expect(res.body.skus[0]).toHaveProperty('skuId');
+      expect(res.body.skus[0]).toHaveProperty('merchantDomain');
+      expect(res.body.skus[0]).toHaveProperty('arbitrageSavings');
+    });
+
+    it('evaluates Spend Policy Passport across 3 financial zones', async () => {
+      // Test Green Zone
+      const greenRes = await request(app)
+        .post('/api/guardrails/evaluate')
+        .send({
+          items: [{ skuId: 'sku-1', category: 'Audio', price: 180, merchantDomain: 'bhphoto.com' }],
+          totalCost: 180,
+          policyOverride: { maxAutoApproveLimit: 250, hardTransactionCeiling: 300 },
+        });
+      expect(greenRes.status).toBe(200);
+      expect(greenRes.body.evaluation.zone).toBe('GREEN');
+      expect(greenRes.body.evaluation.isAutonomousApproved).toBe(true);
+      expect(greenRes.body.evaluation.policyPassportHash.length).toBe(64); // SHA-256
+
+      // Test Yellow Zone (HITL)
+      const yellowRes = await request(app)
+        .post('/api/guardrails/evaluate')
+        .send({
+          items: [{ skuId: 'sku-1', category: 'Audio', price: 275, merchantDomain: 'bhphoto.com' }],
+          totalCost: 275,
+          policyOverride: { maxAutoApproveLimit: 250, hardTransactionCeiling: 300 },
+        });
+      expect(yellowRes.body.evaluation.zone).toBe('YELLOW');
+      expect(yellowRes.body.evaluation.requiresHumanApproval).toBe(true);
+
+      // Test Red Zone (Hard Block)
+      const redRes = await request(app)
+        .post('/api/guardrails/evaluate')
+        .send({
+          items: [{ skuId: 'sku-1', category: 'Audio', price: 350, merchantDomain: 'bhphoto.com' }],
+          totalCost: 350,
+          policyOverride: { maxAutoApproveLimit: 250, hardTransactionCeiling: 300 },
+        });
+      expect(redRes.body.evaluation.zone).toBe('RED');
+      expect(redRes.body.evaluation.isBlocked).toBe(true);
+    });
+
+    it('creates PayPal order embedding cryptographic passport hash in custom_id', async () => {
+      const res = await request(app)
+        .post('/api/paypal/orders/create')
+        .send({
+          items: [{ skuId: 'sku-1', title: 'Podcasting Mic', price: 99.0, merchantDomain: 'amazon.com' }],
+          totalAmountUsd: 99.0,
+          policyPassportHash: 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789',
+          orderReference: 'TEST-BUYWARD-001',
+        });
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.data).toHaveProperty('paypalOrderId');
+      expect(res.body.data.customIdEmbedded).toContain('abcdef0123456789');
+    });
+
+    it('simulates autonomous price sniper drop and immediate capture', async () => {
+      const rulesRes = await request(app).get('/api/sniper/rules');
+      const targetRule = rulesRes.body.rules[0];
+      expect(targetRule).toBeDefined();
+
+      const dropRes = await request(app)
+        .post('/api/sniper/simulate-drop')
+        .send({ ruleId: targetRule.ruleId, simulatedDropPrice: 59.0 });
+      expect(dropRes.status).toBe(200);
+      expect(dropRes.body.success).toBe(true);
+      expect(dropRes.body.priceMatched).toBe(true);
+      expect(dropRes.body).toHaveProperty('orderId');
+      expect(dropRes.body).toHaveProperty('captureId');
+      expect(dropRes.body.savingsAchieved).toBeGreaterThan(0);
+    });
+  });
 });

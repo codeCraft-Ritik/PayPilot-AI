@@ -59,7 +59,7 @@ export const BudgetBar: React.FC<BudgetBarProps> = ({
       {/* Progress Track */}
       <div className="w-full h-2 rounded-full bg-surface-subtle border border-border overflow-hidden">
         <div
-          className={`h-full ${progressColor} transition-all duration-500 rounded-full`}
+          className={`h-full ${progressColor} transition-[width] duration-300 ease-out rounded-full`}
           style={{ width: `${Math.min(100, percentage)}%` }}
         />
       </div>
@@ -67,7 +67,7 @@ export const BudgetBar: React.FC<BudgetBarProps> = ({
       {/* Feedback Summary */}
       {showDetails && (
         <div className="flex items-center justify-between text-[11px] pt-0.5">
-          <span className="text-foreground-muted font-mono">{percentage}% of target</span>
+          <span className="text-foreground-muted">{percentage}% of target</span>
           <span className={`px-2 py-0.5 rounded border font-mono font-medium flex items-center gap-1 ${badgeColor}`}>
             {isOver ? (
               <AlertTriangle className="w-3 h-3" />

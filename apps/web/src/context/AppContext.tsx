@@ -16,7 +16,7 @@ interface AppContextType {
 
   // Cart
   cart: CartItem[];
-  addToCart: (product: Product, quantity?: number) => void;
+  addToCart: (product: Product, quantity?: number, openCart?: boolean) => void;
   removeFromCart: (productId: string) => void;
   updateCartQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -87,7 +87,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [cart]);
 
-  const addToCart = (product: Product, quantity: number = 1) => {
+  const addToCart = (product: Product, quantity: number = 1, openCart: boolean = true) => {
     setCart((prev) => {
       const idx = prev.findIndex((item) => item.productId === product.id);
       if (idx >= 0) {
@@ -100,7 +100,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       return [...prev, { productId: product.id, product, quantity, unitPrice: product.price }];
     });
-    setIsCartOpen(true);
+    if (openCart) {
+      setIsCheckoutOpenState(false);
+      setIsCartOpenState(true);
+    }
   };
 
   const removeFromCart = (productId: string) => {
@@ -160,10 +163,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const clearComparison = () => setComparedProductIds([]);
   const isInComparison = (productId: string) => comparedProductIds.includes(productId);
 
-  // 5. Modals
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  // 5. Modals (mutually exclusive overlays to prevent drawer/modal collision)
+  const [isCartOpen, setIsCartOpenState] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpenState] = useState(false);
   const [selectedProductForDetail, setSelectedProductForDetail] = useState<Product | null>(null);
+
+  const setIsCartOpen = (open: boolean) => {
+    if (open) {
+      setIsCheckoutOpenState(false);
+    }
+    setIsCartOpenState(open);
+  };
+
+  const setIsCheckoutOpen = (open: boolean) => {
+    if (open) {
+      setIsCartOpenState(false);
+    }
+    setIsCheckoutOpenState(open);
+  };
 
   return (
     <AppContext.Provider
