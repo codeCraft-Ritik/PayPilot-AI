@@ -2746,5 +2746,126 @@
     "createdAt": "2026-11-09T09:31:59.108Z",
     "updatedAt": "2026-11-09T09:31:59.108Z",
     "paypalOrderId": "SANDBOX-SIM-MW92B4SK-OCH8"
+  },
+  {
+    "id": "ord_1794378207750_lhkux",
+    "orderNumber": "PP-2026-364134",
+    "items": [
+      {
+        "productId": "prod-aud-02",
+        "name": "Anker Soundcore Space Q45 Adaptive ANC Headphones",
+        "quantity": 2,
+        "unitPrice": 129.99,
+        "totalPrice": 259.98
+      }
+    ],
+    "subtotal": 259.98,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 259.98,
+    "currency": "USD",
+    "status": "PENDING_APPROVAL",
+    "createdAt": "2026-11-11T06:23:27.750Z",
+    "updatedAt": "2026-11-11T06:23:27.750Z",
+    "paypalOrderId": "SANDBOX-SIM-MWBQGE86-2J7M"
+  },
+  {
+    "id": "ord_1794378207754_oxg7t",
+    "orderNumber": "PP-2026-955694",
+    "items": [
+      {
+        "productId": "prod-per-02",
+        "name": "Logitech MX Master 3S Performance Wireless Mouse",
+        "quantity": 1,
+        "unitPrice": 99.99,
+        "totalPrice": 99.99
+      }
+    ],
+    "subtotal": 99.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 99.99,
+    "currency": "USD",
+    "status": "COMPLETED",
+    "createdAt": "2026-11-11T06:23:27.754Z",
+    "updatedAt": "2026-11-11T06:23:27.756Z",
+    "paypalOrderId": "SANDBOX-SIM-MWBQGE8A-MEFZ",
+    "paypalCaptureId": "CAP-MWBQGE8C-LT896",
+    "payerEmail": "sandbox-shopper@paypilot.demo",
+    "payerName": "Sandbox Shopper",
+    "verifiedAt": "2026-11-11T06:23:27.756Z",
+    "paymentDetails": {
+      "processor": "PAYPAL_SANDBOX",
+      "status": "COMPLETED",
+      "captureId": "CAP-MWBQGE8C-LT896",
+      "createTime": "2026-11-11T06:23:27.756Z",
+      "updateTime": "2026-11-11T06:23:27.756Z",
+      "currency": "USD",
+      "amount": "99.99"
+    }
+  },
+  {
+    "id": "ord_1794378207760_v2ace",
+    "orderNumber": "PP-2026-903999",
+    "items": [
+      {
+        "productId": "prod-per-02",
+        "name": "Logitech MX Master 3S Performance Wireless Mouse",
+        "quantity": 1,
+        "unitPrice": 99.99,
+        "totalPrice": 99.99
+      }
+    ],
+    "subtotal": 99.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 99.99,
+    "currency": "USD",
+    "status": "COMPLETED",
+    "createdAt": "2026-11-11T06:23:27.760Z",
+    "updatedAt": "2026-11-11T06:23:27.761Z",
+    "paypalOrderId": "SANDBOX-SIM-MWBQGE8G-83Y3",
+    "paypalCaptureId": "CAP-MWBQGE8H-9ZXSG",
+    "payerEmail": "sandbox-shopper@paypilot.demo",
+    "payerName": "Sandbox Shopper",
+    "verifiedAt": "2026-11-11T06:23:27.761Z",
+    "paymentDetails": {
+      "processor": "PAYPAL_SANDBOX",
+      "status": "COMPLETED",
+      "captureId": "CAP-MWBQGE8H-9ZXSG",
+      "createTime": "2026-11-11T06:23:27.761Z",
+      "updateTime": "2026-11-11T06:23:27.761Z",
+      "currency": "USD",
+      "amount": "99.99"
+    }
+  },
+  {
+    "id": "ord_1794378207768_2jggz",
+    "orderNumber": "PP-2026-243031",
+    "items": [
+      {
+        "productId": "prod-aud-04",
+        "name": "Audio-Technica ATH-M50xBT2 Wireless Studio Monitor",
+        "quantity": 1,
+        "unitPrice": 199,
+        "totalPrice": 199
+      },
+      {
+        "productId": "prod-per-02",
+        "name": "Logitech MX Master 3S Performance Wireless Mouse",
+        "quantity": 1,
+        "unitPrice": 99.99,
+        "totalPrice": 99.99
+      }
+    ],
+    "subtotal": 298.99,
+    "shippingFee": 0,
+    "estimatedTax": 0,
+    "totalAmount": 298.99,
+    "currency": "USD",
+    "status": "PENDING_APPROVAL",
+    "createdAt": "2026-11-11T06:23:27.768Z",
+    "updatedAt": "2026-11-11T06:23:27.768Z",
+    "paypalOrderId": "SANDBOX-SIM-MWBQGE8O-PC6F"
   }
 ]
